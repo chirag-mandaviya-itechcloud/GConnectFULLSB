@@ -1398,6 +1398,10 @@ lightning-textarea {
   margin-bottom: 4px;
 }
 
+.rtw-followup-value-date {
+  margin-left: 5px;
+}
+
 .rtw-followup-note {
   font-size: 12px;
   color: #856404;

@@ -1106,7 +1106,11 @@
                                                     <div class="info-field">
                                                         <div class="info-label">Permission expiry date:</div>
                                                         <div class="info-value">
-                                                            {selectedContractor.Permission_Expiry_Date__c}</div>
+                                                            <lightning-formatted-date-time
+                                                                value={selectedContractor.Permission_Expiry_Date__c}
+                                                                day="2-digit" month="2-digit" year="numeric">
+                                                            </lightning-formatted-date-time>
+                                                        </div>
                                                     </div>
                                                 </template>
 
@@ -1166,7 +1170,12 @@
                                                     <div class="rtw-followup-content">
                                                         <div class="rtw-followup-label">Follow-up Check:</div>
                                                         <div class="rtw-followup-value">Due
-                                                            {selectedContractor.followUpCheckDate}</div>
+                                                            <lightning-formatted-date-time
+                                                                value={selectedContractor.followUpCheckDate}
+                                                                day="2-digit" month="2-digit" year="numeric"
+                                                                class="rtw-followup-value-date">
+                                                            </lightning-formatted-date-time>
+                                                        </div>
                                                         <div class="rtw-followup-note">Auto-scheduled 90 days before
                                                             expiry
                                                         </div>
@@ -1184,7 +1193,10 @@
                                         <template if:true={selectedContractor.hasEntryDate}>
                                             <div class="slds-col slds-size_1-of-2 ">
                                                 <p><strong>Date Of Entry:</strong></p>
-                                                <p>{selectedContractor.Date_of_Entry__c}</p>
+                                                <lightning-formatted-date-time
+                                                    value={selectedContractor.Date_of_Entry__c} day="2-digit"
+                                                    month="2-digit" year="numeric" class="rtw-followup-value-date">
+                                                </lightning-formatted-date-time>
                                             </div>
                                         </template>
 
@@ -1192,7 +1204,10 @@
                                             <div class="slds-col slds-size_1-of-2 ">
                                                 <p><strong>Date Of Expiry:</strong></p>
                                                 <template if:false={rightToWorkEditOpen}>
-                                                    <p>{selectedContractor.RTW_Expiry_Date__c}</p>
+                                                    <lightning-formatted-date-time
+                                                        value={selectedContractor.RTW_Expiry_Date__c} day="2-digit"
+                                                        month="2-digit" year="numeric" class="rtw-followup-value-date">
+                                                    </lightning-formatted-date-time>
                                                 </template>
                                                 <template if:true={rightToWorkEditOpen}>
                                                     <lightning-input class="expiryDate-edit"
@@ -1479,12 +1494,18 @@
                                         <div class="slds-col slds-size_1-of-2 ">
                                             <div>
                                                 <p><strong>Issue Date:</strong></p>
-                                                <p>{selectedContractor.Driving_Licence_Issue_Date__c}</p>
+                                                <lightning-formatted-date-time
+                                                    value={selectedContractor.Driving_Licence_Issue_Date__c}
+                                                    day="2-digit" month="2-digit" year="numeric">
+                                                </lightning-formatted-date-time>
 
                                             </div>
                                             <div class="slds-var-p-top_small">
                                                 <p><strong>Expiry Date:</strong></p>
-                                                <p>{selectedContractor.Driving_Licence_Expiry_Date__c}</p>
+                                                <lightning-formatted-date-time
+                                                    value={selectedContractor.Driving_Licence_Expiry_Date__c}
+                                                    day="2-digit" month="2-digit" year="numeric">
+                                                </lightning-formatted-date-time>
 
                                             </div>
                                             <div class="slds-var-p-top_small">
