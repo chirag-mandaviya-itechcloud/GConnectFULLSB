@@ -11,7 +11,6 @@ import PoweredByLogo from '@salesforce/resourceUrl/PoweredByLogo';
 import getMultiplePicklistValues from '@salesforce/apex/ConnectAppController.getMultiplePicklistValues';
 import uploadFile from '@salesforce/apex/ImageUploaderController.saveUplodededFiles';
 import searchExistingAccounts from '@salesforce/apex/AccountDuplicateChecker.searchExistingAccounts';
-import GConnectLogo from '@salesforce/resourceUrl/GconnectLogo';
 import deleteExistingDocument from '@salesforce/apex/ImageUploaderController.deleteExistingDocument';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -21,51 +20,25 @@ export default class GConnectVerification extends LightningElement {
     buttonFontColor = '#000000';
     primaryColor = 'black';
     secondaryColor = 'blue';
-    MAX_FILE_SIZE = 5242880; // 5 MB in bytes //2048000; // 2 MB //
-    connectLogo = `${GConnectLogo}/Connect-Wordmark-Whiteout.png`;
     spinner = false;
     errorMessage;
     editMode = true;
     lastConfirmStage;
-    haveUTRNumber;
     // pdfUrl = TCpdf;
 
     signUpPage = true;
-    confirmBasicDetailsPage = false;
-    confirmAddressDetailsPage = false;
-    confirmEmergencyContactpage = false;
-    confirmGovtGatewayDetailspage = false;
-    confirmVideoDetailsPage = false;
-    confirmServicePlanDetailsPage = false;
-    confirmServiceTermsDetailsPage = false;
-    confirmBankDetailsPage = false;
-    confirmProfilePicture = false;
     confirmForm64Page = false;
     confirmDrivingLicensePage = false;
     congratulationsPage = false;
-    confirmRTWUploadPage = false;
     confirmDLUploadPage = false;
-    confirmNationalInsurancePageconfirmNationalInsurancePage = false;
-
-
-    isButtonDisabled = true;
 
     @track applyLicenseNumberValidation = true;
-
-    isUTREntryDisabled = true;
-    isVATEntryDisabled = true;
-    isGovDetDisabled = true;
-
-    showCongratsImg = false;
     fileErrorMessage = false;
-    fileErrorDLMessage = false;
 
     showAccessCode = false;
     showFileUploadCombo = false;
     isRTWDoc = false;
     citizenshipIsEEU = false;
-    showRTWExpiryDate = false;
-    disabledTermBtn = false;
 
     @track showDrivingValidationMessage; // for Displaying the Validation related error message || 09-09-2025
     @track showDrivingValidation = false; // For check the Validation Error message is available or not || 09-09-2025
@@ -129,13 +102,9 @@ export default class GConnectVerification extends LightningElement {
     bankAccountNo;
     sortCode;
     bankWithName;
-
-    videoSrc;
     @track videoId;
 
-    @track existingSCDetails = [];
     @track productList = [];
-    @track productDefaultList = [];
     @track vatRegisteredProducts = [];
     @track collectDetails = {};
     @track collectBasicDetails = {};
@@ -168,24 +137,15 @@ export default class GConnectVerification extends LightningElement {
     @track existingDriverCongratulationImage;
     @track accountId;
     @track DSPName;
-    @track isTermcondition = false;
     @track opelGDPRModalSection = false;
     @track exisingDriverContent = false;
 
     @track endUser;
     @track selectedDepot;
 
-    @track currentAddressOptions = [];
-    showCurrentAddress = false;
-    selectedCurrentAddress = '';
-    @track previousAddressOptions = [];
-    showPreviousAddress = false;
-    selectedPreviousAddress = '';
-
     /*Picklist Options*/
     @track cIStatus_option = [];
     @track rtw_option = [];
-    @track filtered_rtw_option = [];
     @track settledStatus_option = [];
     @track bioEvi_option = [];
     @track licenseTypes_option = [];
@@ -195,8 +155,6 @@ export default class GConnectVerification extends LightningElement {
     @track profileFiles = [];
     @track capturedFiles = [];
 
-    @track frontDocFiles = [];
-    @track backDocFiles = [];
     @api fileModuleError = '';
     @api isFileModuleError = false;
 
@@ -212,14 +170,7 @@ export default class GConnectVerification extends LightningElement {
     @track showFileUploadModal = false;
     @track showProfileUploadModal = false;
 
-    @track uploadFileFlag = false;
-    @track capturedFileFlag = false;
-    @track profileFlag = false;
-
     @track uploadType = 'None'
-
-    @track profileFileUploded = false;
-    @track rtwFilesUploded = false;
     @track licenseFilesUploded = false;
 
     @track currentNINumber;
@@ -229,7 +180,6 @@ export default class GConnectVerification extends LightningElement {
 
     @track isApplicationDuplicate = 'NA';
     @track showProductScreen = true;
-    @track existingAccounts;
 
     updateErrorMessage = '';
     isError = false;
@@ -240,7 +190,6 @@ export default class GConnectVerification extends LightningElement {
     @track backDLFiles = [];
     @track RTWFiles = [];
 
-    @track isProfilePicError = false;
     @track isDlDocError = false;
     @track isRtwDocError = false;
     @track showWelcomeScreen1 = false;
@@ -328,9 +277,6 @@ export default class GConnectVerification extends LightningElement {
     };
     @track selectedCategoryId = null;
     @track selectedEvidenceId = null;
-    selectedCategoryId;
-    selectedEvidenceId;
-    shareCode;
 
     @track showUploadScreen = false;
     @track uploadMode = 'single'; // 'single' or 'dual'
@@ -1299,7 +1245,6 @@ export default class GConnectVerification extends LightningElement {
     // ----------------------------- OnChange METHODs ---------------------------------------//
 
     // NEW RTW
-    shareCode = null;
     showShareCode = false
 
     onChangeForm64Details(event) {
