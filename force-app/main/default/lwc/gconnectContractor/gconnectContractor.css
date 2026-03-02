@@ -851,7 +851,7 @@ input[type="file"]:disabled + label {
     gap: 12px;
     align-items: center;
 }
-/* 
+/*
 .btn {
     padding: 8px 16px;
     border-radius: 99px;
@@ -925,8 +925,7 @@ input[type="file"]:disabled + label {
 }
 
 /* Label styling (same as old .label) */
-.info-label,
-.label {
+.info-label {
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.4px;

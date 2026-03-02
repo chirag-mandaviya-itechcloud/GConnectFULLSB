@@ -471,675 +471,692 @@
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
-        
+
         <template if:true={isRightToWorkModalOpen}>
             <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open right-to-work-modal">
-                
-                    <div class={mainModalClass}>
-                        <header class="slds-modal__header dialogueHeader">
-                            <!-- <template if:true={selectedContractor.allowRTWEdit}>
+
+                <div class={mainModalClass}>
+                    <header class="slds-modal__header dialogueHeader">
+                        <!-- <template if:true={selectedContractor.allowRTWEdit}>
                                 <button class="edit-button" onclick={handleRTWEditClick}
                                     data-selected-id={selectedContractor.Id}>
                                     <img src={editIcon} alt="Edit" class="edit-button" />
                                 </button>
                             </template> -->
-                            <!-- <button class="close-button" onclick={closeModal}>×</button> -->
-                            <!-- <button class="close-button" onclick={cancelModule}>×</button>
+                        <!-- <button class="close-button" onclick={closeModal}>×</button> -->
+                        <!-- <button class="close-button" onclick={cancelModule}>×</button>
                             <h2 class="slds-text-heading_medium custom-header">Right To Work Validation</h2> -->
 
 
-                            <div class="modal-header">
-                                <h2>Right to Work</h2>
-                                <div class="action-group">
-                                    <button class="btn-request" onclick={openRequestEvidenceModal}> Request New Evidence
+                        <div class="modal-header">
+                            <h2>Right to Work</h2>
+                            <div class="action-group">
+                                <button class="btn-request" onclick={openRequestEvidenceModal}> Request New Evidence
+                                </button>
+                                <template if:true={selectedContractor.allowRTWEdit}>
+                                    <button class="custom-button validate-button" onclick={handleRTWEditClick}
+                                        data-selected-id={selectedContractor.Id}>
+                                        Edit
                                     </button>
-                                    <template if:true={selectedContractor.allowRTWEdit}>
-                                        <button class="custom-button validate-button" onclick={handleRTWEditClick}
-                                            data-selected-id={selectedContractor.Id}>
-                                            Edit
-                                        </button>
-                                    </template>
-                                    <button class="custom-button validate-button" onclick={handleDownload}
-                                        data-selected-id={selectedContractor.Id} data-doctype="GConnect RTW">
-                                        Download
-                                    </button>
-                                    <button class="close-button" onclick={cancelModule}>×</button>
-                                </div>
+                                </template>
+                                <button class="custom-button validate-button" onclick={handleDownload}
+                                    data-selected-id={selectedContractor.Id} data-doctype="GConnect RTW">
+                                    Download
+                                </button>
+                                <button class="close-button" onclick={cancelModule}>×</button>
                             </div>
-                            <hr class="slds-m-vertical_small" />
-                        </header>
-                        <div class="slds-modal__content slds-p-horizontal_medium slds-p-bottom_medium">
-                            <!-- <div class="status-pill">
+                        </div>
+                        <hr class="slds-m-vertical_small" />
+                    </header>
+                    <div class="slds-modal__content slds-p-horizontal_medium slds-p-bottom_medium">
+                        <!-- <div class="status-pill">
                                 <span class="check-icon">✓</span>
                                 <span><strong>Validated</strong> &nbsp;—&nbsp; 11/02/2026 by P. Loomba</span>
                             </div> -->
-                            <template if:true={showNameNi}>
-                                <div class="slds-m-bottom_small">
+                        <template if:true={showNameNi}>
+                            <div class="slds-m-bottom_small">
 
-                                    <div class="driver-info driver-header-info">
-                                        <div class="info-field">
-                                            <template if:true={selectedContractor.clientName}>
-                                                <div class="info-label">Driver Name:</div>
-                                                <div class="info-value">{selectedContractor.clientName}</div>
-                                            </template>
-                                        </div>
-                                        <div class="info-field">
-                                            <template if:true={selectedContractor.hasShareCode}>
-                                                <div class="slds-grid">
-                                                    <div class="info-field slds-col slds-size_1-of-2">
-                                                        <div class="info-label">Share Code</div>
-                                                        <div class="badge badge-gray">{selectedContractor.Share_Code__c}</div>
-                                                    </div>
-                                                    <div class='info-field slds-col slds-size_1-of-2' style="margin-left:14px">
-                                                        <div class="info-label">Date of Birth</div>
-                                                        <div class="badge badge-gray">
-                                                            <lightning-formatted-date-time
-                                                                value={selectedContractor.Date_of_Birth__c}
-                                                                day="2-digit"
-                                                                month="2-digit"
-                                                                year="numeric">
-                                                            </lightning-formatted-date-time>
-                                                        </div>
+                                <div class="driver-info driver-header-info">
+                                    <div class="info-field">
+                                        <template if:true={selectedContractor.clientName}>
+                                            <div class="info-label">Driver Name:</div>
+                                            <div class="info-value">{selectedContractor.clientName}</div>
+                                        </template>
+                                    </div>
+                                    <div class="info-field">
+                                        <template if:true={selectedContractor.hasShareCode}>
+                                            <div class="slds-grid">
+                                                <div class="info-field slds-col slds-size_1-of-2">
+                                                    <div class="info-label">Share Code</div>
+                                                    <div class="badge badge-gray">{selectedContractor.Share_Code__c}
                                                     </div>
                                                 </div>
+                                                <div class='info-field slds-col slds-size_1-of-2'
+                                                    style="margin-left:14px">
+                                                    <div class="info-label">Date of Birth</div>
+                                                    <div class="badge badge-gray">
+                                                        <lightning-formatted-date-time
+                                                            value={selectedContractor.Date_of_Birth__c} day="2-digit"
+                                                            month="2-digit" year="numeric">
+                                                        </lightning-formatted-date-time>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template if:false={selectedContractor.hasShareCode}>
+                                            <template if:true={selectedContractor.nationalInsurance}>
+                                                <div class="info-label">NI Number:</div>
+                                                <div class="info-value">{selectedContractor.nationalInsurance}</div>
                                             </template>
-                                            <template if:false={selectedContractor.hasShareCode}>
-                                                <template if:true={selectedContractor.nationalInsurance}>
-                                                    <div class="info-label">NI Number:</div>
-                                                    <div class="info-value">{selectedContractor.nationalInsurance}</div>
-                                                </template>
-                                            </template>
-                                        </div>
-
+                                        </template>
                                     </div>
 
-
                                 </div>
-                            </template>
 
-                            <div class="slds-grid">
 
-                                <div class="slds-col slds-size_1-of-2">
-                                    <template if:true={selectedContractor.hasShareCode}>
-                                        <div class="spinner-container" style="height: 100%;">
-                                            <lightning-spinner if:true={imageLoading} alternative-text="Uploading"
-                                                size="small" class="spinner-overlay"></lightning-spinner>
-                                            <div if:true={imagesNotAvailable} class="imageNotAvail imageNotAvaContainer">
-                                                <span>No Image Uploaded</span>
-                                            </div>
-                                            <template if:true={imagesAvailable}>
-                                                <div class="frontDoc">
-                                                    <p class="slds-p-bottom_small"><strong>Document:</strong></p>
-                                                    <div style="width: 100%;">
-                                                        <template if:true={selectedContractor.CheckDoc}>
-                                                            <div align="right" style="width: 94%">
-                                                                <img src={fileDownloadIcon}
-                                                                    data-link={selectedContractor.CheckDoc}
-                                                                    onclick={handleRTWDownload} alt="Download"
-                                                                    title="Download"
-                                                                    style="cursor: pointer; height: 25px; width: 25px;" />
-                                                            </div>
-                                                            <img src={selectedContractor.CheckDoc}
-                                                                alt={selectedContractor.CheckDocName} class="docView"
-                                                                onerror={handleRTWImageError} />
+                            </div>
+                        </template>
 
-                                                        </template>
-                                                        <template if:false={selectedContractor.CheckDoc}>
-                                                            <div class="imageNotAvaContainer" lwc-2o3e9begcc2="">
-                                                                <template if:true={selectedContractor.CheckDocName}>
-                                                                    {selectedContractor.CheckDocName}
-                                                                </template>
-                                                                <template if:false={selectedContractor.CheckDocName}>
-                                                                    Image Not Uploaded
-                                                                </template>
-                                                            </div>
-                                                        </template>
-                                                    </div>
-                                                </div>
-                                            </template>
+                        <div class="slds-grid">
+
+                            <div class="slds-col slds-size_1-of-2">
+                                <template if:true={selectedContractor.hasShareCode}>
+                                    <div class="spinner-container" style="height: 100%;">
+                                        <lightning-spinner if:true={imageLoading} alternative-text="Uploading"
+                                            size="small" class="spinner-overlay"></lightning-spinner>
+                                        <div if:true={imagesNotAvailable} class="imageNotAvail imageNotAvaContainer">
+                                            <span>No Image Uploaded</span>
                                         </div>
-                                    </template>
-                                    <template if:false={selectedContractor.hasShareCode}>
-                                        <div class="spinner-container" style="height: 100%;">
-                                            <lightning-spinner if:true={imageLoading} alternative-text="Uploading"
-                                                size="small" class="spinner-overlay"></lightning-spinner>
-                                            <div if:true={imagesNotAvailable} class="imageNotAvail imageNotAvaContainer">
-                                                <span>No Image Uploaded</span>
-                                            </div>
-                                            <template if:true={imagesAvailable}>
-                                                <div class="frontDoc">
-                                                    <p class="slds-p-bottom_small">
-                                                        <strong>{selectedContractor.rtwFrontDocumentName}:</strong>
-                                                    </p>
-                                                    <div style="width: 100%;">
-                                                        <template if:true={selectedContractor.FrontDoc}>
-                                                            <img src={selectedContractor.FrontDoc} alt="Front of RTW"
-                                                                class="docView" />
-                                                        </template>
-                                                        <template if:false={selectedContractor.FrontDoc}>
-                                                            <div class="imageNotAvaContainer" lwc-2o3e9begcc2="">Image Not
-                                                                Uploaded </div>
-                                                        </template>
-                                                    </div>
-                                                </div>
-                                                <!-- New UI RTW can contain 2 Image -->
-                                                <template if:true={selectedContractor.doubleRTWImage}>
-                                                    <div class="backDoc slds-p-top_small">
-                                                        <p class="slds-p-bottom_small">
-                                                            <strong>{selectedContractor.rtwBackDocumentName}:</strong>
-                                                        </p>
-                                                        <div style="width: 100%;">
-                                                            <template if:true={selectedContractor.BackDoc}>
-                                                                <img src={selectedContractor.BackDoc} alt="Front of RTW"
-                                                                    class="docView" />
+                                        <template if:true={imagesAvailable}>
+                                            <div class="frontDoc">
+                                                <p class="slds-p-bottom_small"><strong>Document:</strong></p>
+                                                <div style="width: 100%;">
+                                                    <template if:true={selectedContractor.CheckDoc}>
+                                                        <div align="right" style="width: 94%">
+                                                            <img src={fileDownloadIcon}
+                                                                data-link={selectedContractor.CheckDoc}
+                                                                onclick={handleRTWDownload} alt="Download"
+                                                                title="Download"
+                                                                style="cursor: pointer; height: 25px; width: 25px;" />
+                                                        </div>
+                                                        <img src={selectedContractor.CheckDoc}
+                                                            alt={selectedContractor.CheckDocName} class="docView"
+                                                            onerror={handleRTWImageError} />
+
+                                                    </template>
+                                                    <template if:false={selectedContractor.CheckDoc}>
+                                                        <div class="imageNotAvaContainer" lwc-2o3e9begcc2="">
+                                                            <template if:true={selectedContractor.CheckDocName}>
+                                                                {selectedContractor.CheckDocName}
                                                             </template>
-                                                            <template if:false={selectedContractor.BackDoc}>
-                                                                <div class="imageNotAvaContainer" lwc-2o3e9begcc2="">Image
-                                                                    Not Uploaded </div>
+                                                            <template if:false={selectedContractor.CheckDocName}>
+                                                                Image Not Uploaded
                                                             </template>
                                                         </div>
-                                                    </div>
-                                                </template>
-
-                                            </template>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                                <template if:false={selectedContractor.hasShareCode}>
+                                    <div class="spinner-container" style="height: 100%;">
+                                        <lightning-spinner if:true={imageLoading} alternative-text="Uploading"
+                                            size="small" class="spinner-overlay"></lightning-spinner>
+                                        <div if:true={imagesNotAvailable} class="imageNotAvail imageNotAvaContainer">
+                                            <span>No Image Uploaded</span>
                                         </div>
-                                    </template>
+                                        <template if:true={imagesAvailable}>
+                                            <div class="frontDoc">
+                                                <p class="slds-p-bottom_small">
+                                                    <strong>{selectedContractor.rtwFrontDocumentName}:</strong>
+                                                </p>
+                                                <div style="width: 100%;">
+                                                    <template if:true={selectedContractor.FrontDoc}>
+                                                        <img src={selectedContractor.FrontDoc} alt="Front of RTW"
+                                                            class="docView" />
+                                                    </template>
+                                                    <template if:false={selectedContractor.FrontDoc}>
+                                                        <div class="imageNotAvaContainer" lwc-2o3e9begcc2="">Image Not
+                                                            Uploaded </div>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                            <!-- New UI RTW can contain 2 Image -->
+                                            <template if:true={selectedContractor.doubleRTWImage}>
+                                                <div class="backDoc slds-p-top_small">
+                                                    <p class="slds-p-bottom_small">
+                                                        <strong>{selectedContractor.rtwBackDocumentName}:</strong>
+                                                    </p>
+                                                    <div style="width: 100%;">
+                                                        <template if:true={selectedContractor.BackDoc}>
+                                                            <img src={selectedContractor.BackDoc} alt="Front of RTW"
+                                                                class="docView" />
+                                                        </template>
+                                                        <template if:false={selectedContractor.BackDoc}>
+                                                            <div class="imageNotAvaContainer" lwc-2o3e9begcc2="">Image
+                                                                Not Uploaded </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </template>
 
-                                </div>
+                                        </template>
+                                    </div>
+                                </template>
 
-                                <div class="slds-col slds-size_1-of-2 ">
-                                    <!-- <div class="citizenship-status">
+                            </div>
+
+                            <div class="slds-col slds-size_1-of-2 ">
+                                <!-- <div class="citizenship-status">
                                         <p><strong>Citizenship/Immigration Status:</strong></p>
                                         <p>{selectedContractor.Citizenship_Immigration_status__c}</p>
                                     </div> -->
 
-                                    <div class="driver-info">
+                                <div class="driver-info">
+                                    <div class="info-field">
+                                        <div class="label">RTW Category</div>
+                                        <div class="badge badge-blue">
+                                            {selectedContractor.Citizenship_Immigration_status__c}</div>
+                                    </div>
+                                    <template if:true={selectedContractor.hasRTWDoc}>
                                         <div class="info-field">
-                                            <div class="label">RTW Category</div>
-                                            <div class="badge badge-blue">
-                                                {selectedContractor.Citizenship_Immigration_status__c}</div>
+                                            <div class="info-label">Evidence Type</div>
+                                            <div class="info-value">{selectedContractor.Right_to_work_document__c}</div>
                                         </div>
-                                        <template if:true={selectedContractor.hasRTWDoc}>
-                                            <div class="info-field">
-                                                <div class="info-label">Evidence Type</div>
-                                                <div class="info-value">{selectedContractor.Right_to_work_document__c}</div>
-                                            </div>
-                                        </template>
-                                        <template if:true={selectedContractor.hasShareCode}>
-                                                <template if:true={selectedContractor.nationalInsurance}>
+                                    </template>
+                                    <template if:true={selectedContractor.hasShareCode}>
+                                        <template if:true={selectedContractor.nationalInsurance}>
                                             <div class="info-field">
                                                 <div class="info-label">Ni Number</div>
                                                 <div class="info-value">{selectedContractor.nationalInsurance}</div>
                                             </div>
-                                                </template>
                                         </template>
-                                        <template if:true={selectedContractor.hasAccessCode}>
-                                            <div class="info-field">
-                                                <div class="info-label">Access Code</div>
-                                                <div class="badge badge-gray">{selectedContractor.Access_Code__c}</div>
-                                            </div>
-                                        </template>
-                                    </div>
-                                    <hr class="slds-m-vertical_small" />
-                                    <!-- ========================================
+                                    </template>
+                                    <template if:true={selectedContractor.hasAccessCode}>
+                                        <div class="info-field">
+                                            <div class="info-label">Access Code</div>
+                                            <div class="badge badge-gray">{selectedContractor.Access_Code__c}</div>
+                                        </div>
+                                    </template>
+                                </div>
+                                <hr class="slds-m-vertical_small" />
+                                <!-- ========================================
                                 NEW DEMO UI - EDIT MODE ONLY
                                 Shows when rightToWorkEditOpen = true
                                 ======================================== -->
-                                    <template if:true={rightToWorkEditOpen}>
-                                        <template if:true={selectedContractor.hasShareCode}>
-                                            <div class="verification-steps" id="v-steps">
-                                                <div class="verification-step">
-                                                    <div class="v-step-content">
-                                                        <div class="v-step-title">Verify on
-                                                            gov.uk</div>
-                                                        <div class="v-step-desc">Enter the
-                                                            share code and date of birth on
-                                                            the Home Office employer
-                                                            checking
-                                                            service.</div>
-                                                        <br>
-                                                        <a href="https://www.gov.uk/view-right-to-work" target="_blank"
-                                                            class="verify-btn">
-                                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                                stroke-width="2" stroke-linecap="round">
-                                                                <path
-                                                                    d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                                                                <polyline points="15 3 21 3 21 9" />
-                                                                <line x1="10" y1="14" x2="21" y2="3" />
-                                                            </svg>
-                                                            Open gov.uk/view-right-to-work
-                                                        </a>
-                                                    </div>
+                                <template if:true={rightToWorkEditOpen}>
+                                    <template if:true={selectedContractor.hasShareCode}>
+                                        <div class="verification-steps" id="v-steps">
+                                            <div class="verification-step">
+                                                <div class="v-step-content">
+                                                    <div class="v-step-title">Verify on
+                                                        gov.uk</div>
+                                                    <div class="v-step-desc">Enter the
+                                                        share code and date of birth on
+                                                        the Home Office employer
+                                                        checking
+                                                        service.</div>
+                                                    <br>
+                                                    <a href="https://www.gov.uk/view-right-to-work" target="_blank"
+                                                        class="verify-btn">
+                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                            stroke-width="2" stroke-linecap="round">
+                                                            <path
+                                                                d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                                                            <polyline points="15 3 21 3 21 9" />
+                                                            <line x1="10" y1="14" x2="21" y2="3" />
+                                                        </svg>
+                                                        Open gov.uk/view-right-to-work
+                                                    </a>
                                                 </div>
                                             </div>
-                                            <template if:true={isExtraFieldEditable}>
+                                        </div>
+                                        <template if:true={isExtraFieldEditable}>
 
-                                                <div class="rtw-verification-section">
-                                                    <div class="rtw-section-title">
-                                                        <span class="rtw-asterisk">*</span>
-                                                        <span class="rtw-section-title-text">Verification Outcome</span>
+                                            <div class="rtw-verification-section">
+                                                <div class="rtw-section-title">
+                                                    <span class="rtw-asterisk">*</span>
+                                                    <span class="rtw-section-title-text">Verification Outcome</span>
+                                                </div>
+
+                                                <!-- Radio Buttons: Continuous vs Time-Limited -->
+                                                <div class="rtw-date-label">Type of right of
+                                                    work</div>
+                                                <div class="rtw-radio-group">
+                                                    <label class={getContinuousRTWClass}
+                                                        onclick={handleSelectContinuousRTW}>
+                                                        <div class="rtw-radio-input-wrapper">
+                                                            <input type="radio" name="verification"
+                                                                value="Continuous right to work"
+                                                                checked={isContinuousSelected} class="rtw-radio-input">
+                                                        </div>
+                                                        <div class="rtw-radio-text">
+                                                            <span class="rtw-radio-label">Continuous
+                                                                right to work</span>
+                                                            <span class="rtw-radio-description">No
+                                                                restrictions, no
+                                                                follow-up check
+                                                                required</span>
+                                                        </div>
+                                                    </label>
+
+                                                    <label class={getTimeLimitedRTWClass}
+                                                        onclick={handleSelectTimeLimitedRTW}>
+                                                        <div class="rtw-radio-input-wrapper">
+                                                            <input type="radio" name="verification"
+                                                                value="Time-limited right to work"
+                                                                checked={isTimeLimitedSelected} class="rtw-radio-input">
+                                                        </div>
+                                                        <div class="rtw-radio-text">
+                                                            <span class="rtw-radio-label">Time-limited
+                                                                right to work</span>
+                                                            <span class="rtw-radio-description">Permission
+                                                                has an expiry date and
+                                                                may have
+                                                                restrictions</span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+
+                                                <!-- Time-Limited Section (shows when Time-limited selected) -->
+                                                <template if:true={showTimeLimitedSection}>
+                                                    <!-- Permission Expiry Date -->
+                                                    <div class="rtw-date-input-group">
+                                                        <div class="rtw-date-label">
+                                                            Permission expiry date
+                                                        </div>
+                                                        <lightning-input type="date" name="PermissionexpiryDate"
+                                                            value={selectedContractor.Permission_Expiry_Date__c}
+                                                            onchange={onChangeRTWDetails} class="rtw-date-picker">
+                                                        </lightning-input>
+                                                        <div class="rtw-followup-hint">
+                                                            <span class="rtw-followup-icon">⏱</span>
+                                                            <span class="rtw-followup-text">Follow-up
+                                                                check auto-scheduled 90 days
+                                                                before expiry</span>
+                                                        </div>
                                                     </div>
 
-                                                    <!-- Radio Buttons: Continuous vs Time-Limited -->
-                                                    <div class="rtw-date-label">Type of right of
-                                                        work</div>
-                                                    <div class="rtw-radio-group">
-                                                        <label class={getContinuousRTWClass}
-                                                            onclick={handleSelectContinuousRTW}>
-                                                            <div class="rtw-radio-input-wrapper">
-                                                                <input type="radio" name="verification"
-                                                                    value="Continuous right to work"
-                                                                    checked={isContinuousSelected} class="rtw-radio-input">
-                                                            </div>
-                                                            <div class="rtw-radio-text">
-                                                                <span class="rtw-radio-label">Continuous
-                                                                    right to work</span>
-                                                                <span class="rtw-radio-description">No
-                                                                    restrictions, no
-                                                                    follow-up check
-                                                                    required</span>
-                                                            </div>
-                                                        </label>
-
-                                                        <label class={getTimeLimitedRTWClass}
-                                                            onclick={handleSelectTimeLimitedRTW}>
-                                                            <div class="rtw-radio-input-wrapper">
-                                                                <input type="radio" name="verification"
-                                                                    value="Time-limited right to work"
-                                                                    checked={isTimeLimitedSelected} class="rtw-radio-input">
-                                                            </div>
-                                                            <div class="rtw-radio-text">
-                                                                <span class="rtw-radio-label">Time-limited
-                                                                    right to work</span>
-                                                                <span class="rtw-radio-description">Permission
-                                                                    has an expiry date and
-                                                                    may have
-                                                                    restrictions</span>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-
-                                                    <!-- Time-Limited Section (shows when Time-limited selected) -->
-                                                    <template if:true={showTimeLimitedSection}>
-                                                        <!-- Permission Expiry Date -->
-                                                        <div class="rtw-date-input-group">
-                                                            <div class="rtw-date-label">
-                                                                Permission expiry date
-                                                            </div>
-                                                            <lightning-input type="date" name="PermissionexpiryDate"
-                                                                value={selectedContractor.Permission_Expiry_Date__c}
-                                                                onchange={onChangeRTWDetails} class="rtw-date-picker">
-                                                            </lightning-input>
-                                                            <div class="rtw-followup-hint">
-                                                                <span class="rtw-followup-icon">⏱</span>
-                                                                <span class="rtw-followup-text">Follow-up
-                                                                    check auto-scheduled 90 days
-                                                                    before expiry</span>
-                                                            </div>
+                                                    <!-- Work Restrictions Section -->
+                                                    <div class="rtw-restrictions-section">
+                                                        <div class="rtw-section-title">
+                                                            Work restrictions
                                                         </div>
 
-                                                        <!-- Work Restrictions Section -->
-                                                        <div class="rtw-restrictions-section">
-                                                            <div class="rtw-section-title">
-                                                                Work restrictions
-                                                            </div>
+                                                        <!-- Radio Buttons: No vs Yes Restrictions -->
+                                                        <div class="rtw-restriction-radio-group">
+                                                            <label class={getNoRestrictionsClass}
+                                                                onclick={handleSelectNoRestrictions}>
+                                                                <div class="rtw-radio-input-wrapper">
+                                                                    <input type="radio" name="restrictions" value="No"
+                                                                        checked={isNoRestrictionsSelected}
+                                                                        class="rtw-radio-input">
+                                                                </div>
+                                                                <div class="rtw-restriction-text">No restrictions</div>
+                                                            </label>
 
-                                                            <!-- Radio Buttons: No vs Yes Restrictions -->
-                                                            <div class="rtw-restriction-radio-group">
-                                                                <label class={getNoRestrictionsClass}
-                                                                    onclick={handleSelectNoRestrictions}>
-                                                                    <div class="rtw-radio-input-wrapper">
-                                                                        <input type="radio" name="restrictions" value="No"
-                                                                            checked={isNoRestrictionsSelected}
-                                                                            class="rtw-radio-input">
-                                                                    </div>
-                                                                    <div class="rtw-restriction-text">No restrictions</div>
-                                                                </label>
+                                                            <label class={getHasRestrictionsClass}
+                                                                onclick={handleSelectHasRestrictions}>
+                                                                <div class="rtw-radio-input-wrapper">
+                                                                    <input type="radio" name="restrictions" value="Yes"
+                                                                        checked={isHasRestrictionsSelected}
+                                                                        class="rtw-radio-input">
+                                                                </div>
+                                                                <div class="rtw-restriction-text">Yes restrictions</div>
+                                                            </label>
+                                                        </div>
 
-                                                                <label class={getHasRestrictionsClass}
-                                                                    onclick={handleSelectHasRestrictions}>
-                                                                    <div class="rtw-radio-input-wrapper">
-                                                                        <input type="radio" name="restrictions" value="Yes"
-                                                                            checked={isHasRestrictionsSelected}
-                                                                            class="rtw-radio-input">
-                                                                    </div>
-                                                                    <div class="rtw-restriction-text">Yes restrictions</div>
-                                                                </label>
-                                                            </div>
-
-                                                            <!-- Restriction Details (shows when Yes selected) -->
-                                                            <template if:true={showRestrictionsSection}>
-                                                                <div class="rtw-restriction-details">
-                                                                    <!-- Limited Hours -->
-                                                                    <div class="rtw-restriction-item">
-                                                                        <div class="rtw-hours-input-group">
-                                                                            <label
-                                                                                class="rtw-restriction-item-label">Limited
-                                                                                to:</label>
-                                                                            <lightning-input type="number"
-                                                                                name="limitedHours"
-                                                                                value={selectedContractor.Limited_To_X_Hours_Per_Week__c}
-                                                                                onchange={onChangeRTWDetails}
-                                                                                placeholder="20"
-                                                                                step="1" class="rtw-hours-input"
-                                                                                variant="label-hidden">
-                                                                            </lightning-input>
-                                                                            <span class="rtw-hours-label">hours per
-                                                                                week</span>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <!-- Job Types -->
-                                                                    <div class="rtw-restriction-item">
-                                                                        <label class="rtw-restriction-item-label">Limited to
-                                                                            specific job types</label>
-                                                                        <lightning-input type="text" name="specificJobs"
-                                                                            value={selectedContractor.Limited_To_Specific_Job_Types__c}
+                                                        <!-- Restriction Details (shows when Yes selected) -->
+                                                        <template if:true={showRestrictionsSection}>
+                                                            <div class="rtw-restriction-details">
+                                                                <!-- Limited Hours -->
+                                                                <div class="rtw-restriction-item">
+                                                                    <div class="rtw-hours-input-group">
+                                                                        <label
+                                                                            class="rtw-restriction-item-label">Limited
+                                                                            to:</label>
+                                                                        <lightning-input type="number"
+                                                                            name="limitedHours"
+                                                                            value={selectedContractor.Limited_To_X_Hours_Per_Week__c}
                                                                             onchange={onChangeRTWDetails}
-                                                                            placeholder="e.g. Skilled Worker only"
-                                                                            class="rtw-text-input" variant="label-hidden">
-                                                                        </lightning-input>
-                                                                    </div>
-
-                                                                    <!-- Other Restrictions -->
-                                                                    <div class="rtw-restriction-item">
-                                                                        <label class="rtw-restriction-item-label">Other
-                                                                            restriction</label>
-                                                                        <lightning-textarea name="otherRestrictions"
-                                                                            value={selectedContractor.Other_Restrictions__c}
-                                                                            onchange={onChangeRTWDetails}
-                                                                            placeholder="Describe the restriction"
-                                                                            class="rtw-textarea-input"
+                                                                            placeholder="20" step="1"
+                                                                            class="rtw-hours-input"
                                                                             variant="label-hidden">
-                                                                        </lightning-textarea>
+                                                                        </lightning-input>
+                                                                        <span class="rtw-hours-label">hours per
+                                                                            week</span>
                                                                     </div>
                                                                 </div>
-                                                            </template>
-                                                        </div>
-                                                    </template>
-                                                </div>
-                                            </template>
+
+                                                                <!-- Job Types -->
+                                                                <div class="rtw-restriction-item">
+                                                                    <label class="rtw-restriction-item-label">Limited to
+                                                                        specific job types</label>
+                                                                    <lightning-input type="text" name="specificJobs"
+                                                                        value={selectedContractor.Limited_To_Specific_Job_Types__c}
+                                                                        onchange={onChangeRTWDetails}
+                                                                        placeholder="e.g. Skilled Worker only"
+                                                                        class="rtw-text-input" variant="label-hidden">
+                                                                    </lightning-input>
+                                                                </div>
+
+                                                                <!-- Other Restrictions -->
+                                                                <div class="rtw-restriction-item">
+                                                                    <label class="rtw-restriction-item-label">Other
+                                                                        restriction</label>
+                                                                    <lightning-textarea name="otherRestrictions"
+                                                                        value={selectedContractor.Other_Restrictions__c}
+                                                                        onchange={onChangeRTWDetails}
+                                                                        placeholder="Describe the restriction"
+                                                                        class="rtw-textarea-input"
+                                                                        variant="label-hidden">
+                                                                    </lightning-textarea>
+                                                                </div>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </template>
+                                            </div>
                                         </template>
                                     </template>
+                                </template>
 
-                                    <!-- ========================================
+                                <!-- ========================================
                                 READ-ONLY MODE - REDESIGNED FOR SHARE CODE
                                 Shows when rightToWorkEditOpen = false
                                 ======================================== -->
-                                    <template if:false={rightToWorkEditOpen}>
-                                        <!-- New Share Code View Mode -->
-                                        <template if:true={selectedContractor.hasShareCode}>
-                                            <div class="driver-info">
-                                                <!-- Verification Outcome -->
-                                                <template if:true={selectedContractor.Type_of_e_visa__c}>
-                                                    <div class="info-field">
-                                                        <div class="info-label">TYPE OF EVISA:</div>
-                                                        <div class="badge badge-blue">
-                                                            {selectedContractor.Type_of_e_visa__c}
-                                                        </div>
-                                                    </div>
-                                                </template>
-
-                                                <!-- Permission Expiry Date -->
-                                                <template if:true={selectedContractor.Permission_Expiry_Date__c}>
-                                                    <div class="info-field">
-                                                        <div class="info-label">Permission expiry date:</div>
-                                                        <div class="info-value">
-                                                            {selectedContractor.Permission_Expiry_Date__c}</div>
-                                                    </div>
-                                                </template>
-
-                                                <template if:true={selectedContractor.Any_work_restrictions__c}>
-                                                        <div class="info-field">
-                                                            <div class="info-label">Any Work Restrictions:</div>
-                                                            <div class="info-value">
-                                                                {selectedContractor.Any_work_restrictions__c}
-                                                            </div>
-                                                        </div>
-                                                    </template>
-                                                    
-                                                <!-- Limited Hours -->
-                                                <template if:true={selectedContractor.Limited_To_X_Hours_Per_Week__c}>
-                                                    <div class="info-field">
-                                                        <div class="info-label">Limited to:</div>
-                                                        <div class="info-value">
-                                                            {selectedContractor.Limited_To_X_Hours_Per_Week__c} hours per
-                                                            week</div>
-                                                    </div>
-                                                </template>
-
-                                                <!-- Specific Job Types -->
-                                                <template if:true={selectedContractor.Limited_To_Specific_Job_Types__c}>
-                                                    <div class="info-field">
-                                                        <div class="info-label">Limited to specific job types:</div>
-                                                        <div class="info-value">
-                                                            {selectedContractor.Limited_To_Specific_Job_Types__c}</div>
-                                                    </div>
-                                                </template>
-
-                                                <!-- Other Restrictions -->
-                                                <template if:true={selectedContractor.Other_Restrictions__c}>
-                                                    <div class="info-field full-width">
-                                                        <div class="info-label">Other restriction:</div>
-                                                        <div class="info-value">{selectedContractor.Other_Restrictions__c}
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                            </div>
-
-                                            <!-- Follow-up Check Section (Yellow Background) - Full Width at Bottom -->
-                                            <template if:true={selectedContractor.followUpCheckDate}>
-                                                <div class="rtw-followup-box">
-                                                    <div class="rtw-followup-icon">
-                                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                            stroke-width="2">
-                                                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                                                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                                                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                                                        </svg>
-                                                    </div>
-                                                    <div class="rtw-followup-content">
-                                                        <div class="rtw-followup-label">Follow-up Check:</div>
-                                                        <div class="rtw-followup-value">Due
-                                                            {selectedContractor.followUpCheckDate}</div>
-                                                        <div class="rtw-followup-note">Auto-scheduled 90 days before expiry
-                                                        </div>
+                                <template if:false={rightToWorkEditOpen}>
+                                    <!-- New Share Code View Mode -->
+                                    <template if:true={selectedContractor.hasShareCode}>
+                                        <div class="driver-info">
+                                            <!-- Verification Outcome -->
+                                            <template if:true={selectedContractor.Type_of_e_visa__c}>
+                                                <div class="info-field">
+                                                    <div class="info-label">TYPE OF EVISA:</div>
+                                                    <div class="badge badge-blue">
+                                                        {selectedContractor.Type_of_e_visa__c}
                                                     </div>
                                                 </div>
                                             </template>
-                                        </template>
 
-                                        <!-- Old View for Non-Share Code -->
-                                        <template if:false={selectedContractor.hasShareCode}>
-                                            <div class="slds-grid slds-wrap">
-                                                <template if:true={selectedContractor.hasSettledStatus}>
-                                                    <div class="slds-col slds-size_1-of-2">
-                                                        <p><strong>Settled Status:</strong></p>
-                                                        <p>{selectedContractor.Settled_Status__c}</p>
+                                            <!-- Permission Expiry Date -->
+                                            <template if:true={selectedContractor.Permission_Expiry_Date__c}>
+                                                <div class="info-field">
+                                                    <div class="info-label">Permission expiry date:</div>
+                                                    <div class="info-value">
+                                                        <!-- {selectedContractor.Permission_Expiry_Date__c} -->
+                                                        <lightning-formatted-date-time
+                                                            value={selectedContractor.Permission_Expiry_Date__c}
+                                                            day="2-digit" month="2-digit" year="numeric">
+                                                        </lightning-formatted-date-time>
                                                     </div>
-                                                </template>
+                                                </div>
+                                            </template>
 
-                                                <template if:true={selectedContractor.hasBiometric}>
-                                                    <div class="slds-col slds-size_1-of-2 ">
-                                                        <p><strong>Biometric Evidence:</strong></p>
-                                                        <p>{selectedContractor.Biometric_Evidence__c}</p>
+                                            <template if:true={selectedContractor.Any_work_restrictions__c}>
+                                                <div class="info-field">
+                                                    <div class="info-label">Any Work Restrictions:</div>
+                                                    <div class="info-value">
+                                                        {selectedContractor.Any_work_restrictions__c}
                                                     </div>
-                                                </template>
+                                                </div>
+                                            </template>
 
-                                                <template if:true={selectedContractor.hasEntryDate}>
-                                                    <div class="slds-col slds-size_1-of-2 ">
-                                                        <p><strong>Date Of Entry:</strong></p>
-                                                        <p>{selectedContractor.Date_of_Entry__c}</p>
-                                                    </div>
-                                                </template>
+                                            <!-- Limited Hours -->
+                                            <template if:true={selectedContractor.Limited_To_X_Hours_Per_Week__c}>
+                                                <div class="info-field">
+                                                    <div class="info-label">Limited to:</div>
+                                                    <div class="info-value">
+                                                        {selectedContractor.Limited_To_X_Hours_Per_Week__c} hours per
+                                                        week</div>
+                                                </div>
+                                            </template>
 
-                                                <template if:true={selectedContractor.hasExpiryDate}>
-                                                    <div class="slds-col slds-size_1-of-2 ">
-                                                        <p><strong>Date Of Expiry:</strong></p>
-                                                        <p>{selectedContractor.RTW_Expiry_Date__c}</p>
+                                            <!-- Specific Job Types -->
+                                            <template if:true={selectedContractor.Limited_To_Specific_Job_Types__c}>
+                                                <div class="info-field">
+                                                    <div class="info-label">Limited to specific job types:</div>
+                                                    <div class="info-value">
+                                                        {selectedContractor.Limited_To_Specific_Job_Types__c}</div>
+                                                </div>
+                                            </template>
+
+                                            <!-- Other Restrictions -->
+                                            <template if:true={selectedContractor.Other_Restrictions__c}>
+                                                <div class="info-field full-width">
+                                                    <div class="info-label">Other restriction:</div>
+                                                    <div class="info-value">{selectedContractor.Other_Restrictions__c}
                                                     </div>
-                                                </template>
+                                                </div>
+                                            </template>
+                                        </div>
+
+                                        <!-- Follow-up Check Section (Yellow Background) - Full Width at Bottom -->
+                                        <template if:true={selectedContractor.followUpCheckDate}>
+                                            <div class="rtw-followup-box">
+                                                <div class="rtw-followup-icon">
+                                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                        stroke-width="2">
+                                                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                                        <line x1="16" y1="2" x2="16" y2="6"></line>
+                                                        <line x1="8" y1="2" x2="8" y2="6"></line>
+                                                        <line x1="3" y1="10" x2="21" y2="10"></line>
+                                                    </svg>
+                                                </div>
+                                                <div class="rtw-followup-content">
+                                                    <div class="rtw-followup-label">Follow-up Check:</div>
+                                                    <div class="rtw-followup-value">Due
+                                                        <lightning-formatted-date-time
+                                                            value={selectedContractor.followUpCheckDate} day="2-digit"
+                                                            month="2-digit" year="numeric"
+                                                            class="rtw-followup-value-date">
+                                                        </lightning-formatted-date-time>
+                                                    </div>
+                                                    <div class="rtw-followup-note">Auto-scheduled 90 days before expiry
+                                                    </div>
+                                                </div>
                                             </div>
                                         </template>
                                     </template>
-                                    <template if:true={showFileUploadButton}>
-                                        <div class="frontBackFileUpload">
-                                            <div
-                                                class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
-                                                <lightning-button icon-name="utility:upload" variant="brand" class="fileBtn"
-                                                    name="uploadType" label="File Upload" onclick={clickFrontBackUpload}>
-                                                </lightning-button>
 
-                                            </div>
+                                    <!-- Old View for Non-Share Code -->
+                                    <template if:false={selectedContractor.hasShareCode}>
+                                        <div class="slds-grid slds-wrap">
+                                            <template if:true={selectedContractor.hasSettledStatus}>
+                                                <div class="slds-col slds-size_1-of-2">
+                                                    <p><strong>Settled Status:</strong></p>
+                                                    <p>{selectedContractor.Settled_Status__c}</p>
+                                                </div>
+                                            </template>
+
+                                            <template if:true={selectedContractor.hasBiometric}>
+                                                <div class="slds-col slds-size_1-of-2 ">
+                                                    <p><strong>Biometric Evidence:</strong></p>
+                                                    <p>{selectedContractor.Biometric_Evidence__c}</p>
+                                                </div>
+                                            </template>
+
+                                            <template if:true={selectedContractor.hasEntryDate}>
+                                                <div class="slds-col slds-size_1-of-2 ">
+                                                    <p><strong>Date Of Entry:</strong></p>
+                                                    <p></p>
+                                                    <lightning-formatted-date-time
+                                                        value={selectedContractor.Date_of_Entry__c} day="2-digit"
+                                                        month="2-digit" year="numeric">
+                                                    </lightning-formatted-date-time>
+                                                </div>
+                                            </template>
+
+                                            <template if:true={selectedContractor.hasExpiryDate}>
+                                                <div class="slds-col slds-size_1-of-2 ">
+                                                    <p><strong>Date Of Expiry:</strong></p>
+                                                    <lightning-formatted-date-time
+                                                        value={selectedContractor.RTW_Expiry_Date__c} day="2-digit"
+                                                        month="2-digit" year="numeric">
+                                                    </lightning-formatted-date-time>
+                                                </div>
+                                            </template>
                                         </div>
                                     </template>
-                                    <div style="color: red;" if:true={fileErrorMessage}>Please upload Documents
+                                </template>
+                                <template if:true={showFileUploadButton}>
+                                    <div class="frontBackFileUpload">
+                                        <div
+                                            class="slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12">
+                                            <lightning-button icon-name="utility:upload" variant="brand" class="fileBtn"
+                                                name="uploadType" label="File Upload" onclick={clickFrontBackUpload}>
+                                            </lightning-button>
+
+                                        </div>
                                     </div>
+                                </template>
+                                <div style="color: red;" if:true={fileErrorMessage}>Please upload Documents
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Checkbox and Input Section -->
-                            <template if:false={hideValidateContent}>
-                                <div class="slds-p-top_medium">
-                                    <!-- <lightning-input type="checkbox"
+                        <!-- Checkbox and Input Section -->
+                        <template if:false={hideValidateContent}>
+                            <div class="slds-p-top_medium">
+                                <!-- <lightning-input type="checkbox"
                                         label="I confirm that I have personally verified the authenticity of this document with the holder present during their interview and ensured that all images captured are clear and legible for accurate record-keeping."
                                         checked={isRTWVerfiedCheck} onchange={handleRTWVerifiedCheck}>
                                     </lightning-input> -->
-                                    <template if:true={showNonUKConfirmPoints}>
-                                        <div class="validation-box">
-                                            <div class="validation-title">
-                                                <input type="checkbox" checked={isRTWVerfiedCheck}
-                                                    onchange={handleRTWVerifiedCheck} />
-                                                <label>I confirm that:</label>
+                                <template if:true={showNonUKConfirmPoints}>
+                                    <div class="validation-box">
+                                        <div class="validation-title">
+                                            <input type="checkbox" checked={isRTWVerfiedCheck}
+                                                onchange={handleRTWVerifiedCheck} />
+                                            <label>I confirm that:</label>
+                                        </div>
+
+                                        <div class="validation-items">
+
+                                            <div class="validation-item">
+                                                <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <span>
+                                                    {nonUKConfirmPoints.one}
+                                                </span>
                                             </div>
 
-                                            <div class="validation-items">
+                                            <div class="validation-item">
+                                                <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <span>
+                                                    {nonUKConfirmPoints.two}
+                                                </span>
+                                            </div>
 
-                                                <div class="validation-item">
-                                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                    <span>
-                                                        {nonUKConfirmPoints.one}
-                                                    </span>
-                                                </div>
-
-                                                <div class="validation-item">
-                                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                    <span>
-                                                        {nonUKConfirmPoints.two}
-                                                    </span>
-                                                </div>
-
-                                                <div class="validation-item">
-                                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                    <span>
-                                                        {nonUKConfirmPoints.three}
-                                                    </span>
-                                                </div>
+                                            <div class="validation-item">
+                                                <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <span>
+                                                    {nonUKConfirmPoints.three}
+                                                </span>
                                             </div>
                                         </div>
-                                    </template>
-                                    <template if:false={showNonUKConfirmPoints}>
-                                        <div class="validation-box">
-                                            <div class="validation-title">
-                                                <input type="checkbox" checked={isRTWVerfiedCheck}
-                                                    onchange={handleRTWVerifiedCheck} />
-                                                <label>I confirm that:</label>
-                                            </div>
-
-                                            <div class="validation-items">
-
-                                                <div class="validation-item">
-                                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                    <span>
-                                                        {UKConfirmPoints.one}
-                                                    </span>
-                                                </div>
-
-                                                <div class="validation-item">
-                                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                    <span>
-                                                        {UKConfirmPoints.two}
-                                                    </span>
-                                                </div>
-
-                                                <div class="validation-item">
-                                                    <svg class="check-icon" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg>
-                                                    <span>
-                                                        {UKConfirmPoints.three}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </template>
-                                    <template if:true={isRTWVerfiedCheck}>
-                                        <div class="slds-var-p-top_small">
-                                            <lightning-input label="Verified By" placeholder="Enter Your Initials"
-                                                value={verifiedRTWName} onchange={handleRTWVerifiedName}></lightning-input>
-                                        </div>
-                                    </template>
-                                </div>
-                            </template>
-                            <template if:true={showExpiredError}>
-                                <div class="slds-p-top_medium">
-                                    <p style="color: red;">NOTE : RTW Document are Expired. Please update the documents with
-                                        date of expiry.</p>
-                                </div>
-                            </template>
-                            <template if:true={showValidateError}>
-                                <div class="slds-p-top_medium">
-                                    <p style="color: red;">NOTE : Please confirm that you have verified the document by
-                                        checking the box and enter your initials before proceeding.</p>
-                                </div>
-                            </template>
-
-                            <template if:true={showRTWCheckError}>
-                                <div style="color: red;">Please ensure that you upload the required file.</div>
-                            </template>
-                        </div>
-
-                        <footer class="slds-modal__footer dialogueFooter">
-                            <div class="custom-button-group">
-                                <button name="RTWReject" class="custom-button reject-button"
-                                    onclick={rejectHandler}>Cancel</button>
-                                <template if:false={hideValidateContent}>
-                                    <template if:false={hideValidateButton}>
-                                        <button name="RTWValidate" class="custom-button validate-button"
-                                            data-update-type='validate' onclick={validateHandler}>Validate</button>
-                                    </template>
+                                    </div>
                                 </template>
-                                <template if:true={rightToWorkEditOpen}>
-                                    <template if:true={rightToWorkNotShowVerified}>
-                                        <button name="RTWValidate" class="custom-button validate-button"
-                                            data-update-type='validate' onclick={saveRTWandDLdata}>Verify & Save</button>
-                                    </template>
+                                <template if:false={showNonUKConfirmPoints}>
+                                    <div class="validation-box">
+                                        <div class="validation-title">
+                                            <input type="checkbox" checked={isRTWVerfiedCheck}
+                                                onchange={handleRTWVerifiedCheck} />
+                                            <label>I confirm that:</label>
+                                        </div>
+
+                                        <div class="validation-items">
+
+                                            <div class="validation-item">
+                                                <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <span>
+                                                    {UKConfirmPoints.one}
+                                                </span>
+                                            </div>
+
+                                            <div class="validation-item">
+                                                <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <span>
+                                                    {UKConfirmPoints.two}
+                                                </span>
+                                            </div>
+
+                                            <div class="validation-item">
+                                                <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <span>
+                                                    {UKConfirmPoints.three}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template if:true={isRTWVerfiedCheck}>
+                                    <div class="slds-var-p-top_small">
+                                        <lightning-input label="Verified By" placeholder="Enter Your Initials"
+                                            value={verifiedRTWName} onchange={handleRTWVerifiedName}></lightning-input>
+                                    </div>
                                 </template>
                             </div>
-                        </footer>
+                        </template>
+                        <template if:true={showExpiredError}>
+                            <div class="slds-p-top_medium">
+                                <p style="color: red;">NOTE : RTW Document are Expired. Please update the documents with
+                                    date of expiry.</p>
+                            </div>
+                        </template>
+                        <template if:true={showValidateError}>
+                            <div class="slds-p-top_medium">
+                                <p style="color: red;">NOTE : Please confirm that you have verified the document by
+                                    checking the box and enter your initials before proceeding.</p>
+                            </div>
+                        </template>
+
+                        <template if:true={showRTWCheckError}>
+                            <div style="color: red;">Please ensure that you upload the required file.</div>
+                        </template>
                     </div>
+
+                    <footer class="slds-modal__footer dialogueFooter">
+                        <div class="custom-button-group">
+                            <button name="RTWReject" class="custom-button reject-button"
+                                onclick={rejectHandler}>Cancel</button>
+                            <template if:false={hideValidateContent}>
+                                <template if:false={hideValidateButton}>
+                                    <button name="RTWValidate" class="custom-button validate-button"
+                                        data-update-type='validate' onclick={validateHandler}>Validate</button>
+                                </template>
+                            </template>
+                            <template if:true={rightToWorkEditOpen}>
+                                <template if:true={rightToWorkNotShowVerified}>
+                                    <button name="RTWValidate" class="custom-button validate-button"
+                                        data-update-type='validate' onclick={saveRTWandDLdata}>Verify & Save</button>
+                                </template>
+                            </template>
+                        </div>
+                    </footer>
+                </div>
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
-        
-        
+
+
 
         <template if:true={isDrivingLicenseModelOpen}>
             <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open right-to-work-modal">
@@ -1245,8 +1262,7 @@
                                                         <template
                                                             for:each={selectedContractor.Additional_licence_categories__c}
                                                             for:item="item">
-                                                            <div class="status-type-orange"
-                                                                key={item}>{item}</div>
+                                                            <div class="status-type-orange" key={item}>{item}</div>
                                                         </template>
                                                     </div>
                                                 </div>
@@ -1437,16 +1453,17 @@
                             <button class="close-button" onclick={closeConfirmModal}>×</button>
                             <h2 class="slds-text-heading_medium custom-header">Confirm</h2>
                         </header>
-                        
+
                         <!-- Body -->
                         <div class="slds-modal__content modal-content slds-p-around_medium">
                             <div style="display: flex;justify-content: center; width:100%">
                                 <div>
-                                    This will request new RTW details for this contractor, are you sure you want to request new evidence?
+                                    This will request new RTW details for this contractor, are you sure you want to
+                                    request new evidence?
                                 </div>
                             </div>
-                        
-                            
+
+
                         </div>
 
                         <!-- Footer -->
@@ -1455,8 +1472,8 @@
                                 <button class="custom-button validate-button" onclick={closeConfirmModal}>
                                     No
                                 </button>
-                                <button class="custom-button validate-button" onclick={handleRequestNewEvidence} data-selected-id={selectedContractor.Id}
-                                disabled={isRequestingEvidence}>
+                                <button class="custom-button validate-button" onclick={handleRequestNewEvidence}
+                                    data-selected-id={selectedContractor.Id} disabled={isRequestingEvidence}>
                                     Yes
                                 </button>
                             </div>
@@ -1464,7 +1481,7 @@
                     </div>
                 </div>
             </section>
-            <div class="slds-backdrop slds-backdrop_open" ></div>
+            <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
 
         <template if:true={isFileUploadOpned}>

@@ -376,7 +376,7 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
         );
     }
 
-    get mainModalClass(){
+    get mainModalClass() {
         return this.openRequestNewEvidenceModal ? 'slds-modal__container blur-background' : 'slds-modal__container';
     }
 
@@ -633,7 +633,7 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
                         if (this.data[x].Permission_Expiry_Date__c) {
                             expiryDateToCheck = this.data[x].Permission_Expiry_Date__c;
                             rtwExpiryStatus = this.checkDLandRTWExpiry(expiryDateToCheck);
-                            console.log('rtwExpiryStatus',rtwExpiryStatus);
+                            console.log('rtwExpiryStatus', rtwExpiryStatus);
                         }
                         // Priority 2: Check RTW_Expiry_Date__c if no Permission date
                         else if (!this.data[x].bypassValidation && this.data[x].RTW_Expiry_Date__c) {
@@ -1413,7 +1413,7 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
 
     }
 
-    closeConfirmModal(){
+    closeConfirmModal() {
         this.openRequestNewEvidenceModal = false;
     }
 
@@ -1572,7 +1572,7 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
 
         this.selectedContractor.Other_Restrictions__c = null;
         this.data[contractorIndex].Other_Restrictions__c = null;
-        
+
         this.isContinuousSelected = true;
         this.isTimeLimitedSelected = false;
         this.isNoRestrictionsSelected = false;
@@ -1748,46 +1748,46 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
     }
 
     openRequestEvidenceModal() {
-        this.openRequestNewEvidenceModal = true;        
+        this.openRequestNewEvidenceModal = true;
     }
 
-    handleRequestNewEvidence(event){
+    handleRequestNewEvidence(event) {
 
-    if(this.isRequestingEvidence){
-        return;
-    }
+        if (this.isRequestingEvidence) {
+            return;
+        }
 
-    this.isRequestingEvidence = true;
+        this.isRequestingEvidence = true;
 
-    const recordId = event.target.dataset.selectedId;
+        const recordId = event.target.dataset.selectedId;
 
-    sendVerificationLinkEmail({ applicationId: recordId })
-        .then(() => {
+        sendVerificationLinkEmail({ applicationId: recordId })
+            .then(() => {
 
-            this.openRequestNewEvidenceModal = false;
+                this.openRequestNewEvidenceModal = false;
 
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Success',
-                    message: 'Verification Email sent.',
-                    variant: 'success'
-                })
-            );
-        })
-        .catch(error => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Verification Email sent.',
+                        variant: 'success'
+                    })
+                );
+            })
+            .catch(error => {
 
-            let errorMessage = 'Error sending verification email';
-            if (error?.body?.message) {
-                errorMessage = error.body.message;
-            }
+                let errorMessage = 'Error sending verification email';
+                if (error?.body?.message) {
+                    errorMessage = error.body.message;
+                }
 
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error',
-                    message: errorMessage,
-                    variant: 'error'
-                })
-            );
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error',
+                        message: errorMessage,
+                        variant: 'error'
+                    })
+                );
             })
             .finally(() => {
                 this.isRequestingEvidence = false;
@@ -2466,11 +2466,11 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
             if (this.selectedOption == 'RTW') {
 
                 if (this.selectedContractor.hasShareCode) {
-                    if(!this.hasShareCodeFile){
+                    if (!this.hasShareCodeFile) {
                         this.fileErrorMessage = true;
                         return;
                     }
-                    else{
+                    else {
                         this.fileErrorMessage = false;
                     }
 
@@ -2600,7 +2600,7 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
                             // Other_Restrictions__c: this.data[this.selectedContractor.currentClickIndex].Other_Restrictions__c
                         };
                     }
-                    if (this.isRTWVerfiedCheck == true && this.selectedContractor.hasAccessCode == false && this.verifiedRTWName != null && this.selectedContractor.hasShareCode == false  ) {
+                    if (this.isRTWVerfiedCheck == true && this.selectedContractor.hasAccessCode == false && this.verifiedRTWName != null && this.selectedContractor.hasShareCode == false) {
 
 
                         if (this.data[this.selectedContractor.currentClickIndex].hasAccessCode == false && this.fileErrorMessage == false) {

@@ -1005,7 +1005,7 @@ input[type="file"]:disabled + label {
   gap: 20px 28px;
   margin-bottom: 16px;
 }
- 
+
 .driver-header-info {
   gap: 20px 0px;
 }
@@ -1490,6 +1490,10 @@ lightning-textarea {
   color: #856404;
   font-weight: 700;
   margin-bottom: 4px;
+}
+
+.rtw-followup-value-date {
+  margin-left: 5px;
 }
 
 .rtw-followup-note {

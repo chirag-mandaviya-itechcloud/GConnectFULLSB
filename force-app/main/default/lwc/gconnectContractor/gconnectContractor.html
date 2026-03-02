@@ -114,7 +114,7 @@
                                                 <div class="scoreWrap">
                                                     <div class="ring scoreTooltipHost" style={contractor.scoreStyle}>
                                                         <div class="inner"></div>
-                                                        <div class="label" style="margin: 0px;">{contractor.totalscore}
+                                                        <div class="label">{contractor.totalscore}
                                                         </div>
 
                                                         <!-- Tooltip -->
@@ -291,7 +291,7 @@
                                                 <div class="scoreWrap">
                                                     <div class="ring scoreTooltipHost" style={contractor.scoreStyle}>
                                                         <div class="inner"></div>
-                                                        <div class="label" style="margin: 0px;">{contractor.totalscore}
+                                                        <div class="label">{contractor.totalscore}
                                                         </div>
 
                                                         <!-- Tooltip -->
@@ -656,16 +656,16 @@
                                             <div class="slds-grid">
                                                 <div class="info-field slds-col slds-size_1-of-2">
                                                     <div class="info-label">Share Code</div>
-                                                    <div class="badge badge-gray">{selectedContractor.Share_Code__c}</div>
+                                                    <div class="badge badge-gray">{selectedContractor.Share_Code__c}
+                                                    </div>
                                                 </div>
-                                                <div class='info-field slds-col slds-size_1-of-2' style="margin-left:14px">
+                                                <div class='info-field slds-col slds-size_1-of-2'
+                                                    style="margin-left:14px">
                                                     <div class="info-label">Date of Birth</div>
                                                     <div class="badge badge-gray">
                                                         <lightning-formatted-date-time
-                                                            value={selectedContractor.Date_of_Birth__c}
-                                                            day="2-digit"
-                                                            month="2-digit"
-                                                            year="numeric">
+                                                            value={selectedContractor.Date_of_Birth__c} day="2-digit"
+                                                            month="2-digit" year="numeric">
                                                         </lightning-formatted-date-time>
                                                     </div>
                                                 </div>
@@ -795,12 +795,12 @@
                                         </div>
                                     </template>
                                     <template if:true={selectedContractor.hasShareCode}>
-                                            <template if:true={selectedContractor.nationalInsurance}>
-                                        <div class="info-field">
-                                            <div class="info-label">Ni Number</div>
-                                            <div class="info-value">{selectedContractor.nationalInsurance}</div>
-                                        </div>
-                                            </template>
+                                        <template if:true={selectedContractor.nationalInsurance}>
+                                            <div class="info-field">
+                                                <div class="info-label">Ni Number</div>
+                                                <div class="info-value">{selectedContractor.nationalInsurance}</div>
+                                            </div>
+                                        </template>
                                     </template>
                                     <template if:true={selectedContractor.hasAccessCode}>
                                         <div class="info-field">
@@ -949,8 +949,8 @@
                                                                             name="limitedHours"
                                                                             value={selectedContractor.Limited_To_X_Hours_Per_Week__c}
                                                                             onchange={onChangeRTWDetails}
-                                                                            placeholder="20"
-                                                                            step="1" class="rtw-hours-input"
+                                                                            placeholder="20" step="1"
+                                                                            class="rtw-hours-input"
                                                                             variant="label-hidden">
                                                                         </lightning-input>
                                                                         <span class="rtw-hours-label">hours per
@@ -1468,8 +1468,7 @@
                                                         <template
                                                             for:each={selectedContractor.Additional_licence_categories__c}
                                                             for:item="item">
-                                                            <div class="status-type-orange"
-                                                                key={item}>{item}</div>
+                                                            <div class="status-type-orange" key={item}>{item}</div>
                                                         </template>
                                                     </div>
                                                 </div>
@@ -1765,7 +1764,9 @@
                             <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-m-top_small">
                                 <thead>
                                     <tr>
-                                        <th scope="col"><div class="slds-truncate">Date</div></th>
+                                        <th scope="col">
+                                            <div class="slds-truncate">Date</div>
+                                        </th>
                                         <th scope="col">
                                             <div class="slds-truncate">Deduction Type</div>
                                         </th>
@@ -1780,7 +1781,9 @@
                                 <tbody>
                                     <template for:each={deductionList} for:item="ded">
                                         <tr key={ded.deductionType}>
-                                            <td><div class="slds-truncate">{ded.incidentDate}</div></td>
+                                            <td>
+                                                <div class="slds-truncate">{ded.incidentDate}</div>
+                                            </td>
                                             <td>
                                                 <div class="slds-truncate">{ded.deductionType}</div>
                                             </td>
@@ -1818,26 +1821,28 @@
                             <button class="close-button" onclick={closeEvidenceRequestConfirmModal}>×</button>
                             <h2 class="slds-text-heading_medium custom-header">Confirm</h2>
                         </header>
-                        
+
                         <!-- Body -->
                         <div class="slds-modal__content modal-content slds-p-around_medium">
                             <div style="display: flex;justify-content: center; width:100%">
                                 <div>
-                                    This will request new RTW details for this contractor, are you sure you want to request new evidence?
+                                    This will request new RTW details for this contractor, are you sure you want to
+                                    request new evidence?
                                 </div>
                             </div>
-                        
-                            
+
+
                         </div>
 
                         <!-- Footer -->
                         <footer class="slds-modal__footer dialogueFooter">
                             <div class="custom-button-group file-upload-footer">
-                                <button class="custom-button validate-button" onclick={closeEvidenceRequestConfirmModal}>
+                                <button class="custom-button validate-button"
+                                    onclick={closeEvidenceRequestConfirmModal}>
                                     No
                                 </button>
-                                <button class="custom-button validate-button" onclick={handleRequestNewEvidence} data-selected-id={selectedContractor.Id}
-                                disabled={isRequestingEvidence}>
+                                <button class="custom-button validate-button" onclick={handleRequestNewEvidence}
+                                    data-selected-id={selectedContractor.Id} disabled={isRequestingEvidence}>
                                     Yes
                                 </button>
                             </div>
@@ -1845,7 +1850,7 @@
                     </div>
                 </div>
             </section>
-            <div class="slds-backdrop slds-backdrop_open" ></div>
+            <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
         <template if:true={isFileUploadOpned}>
             <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
