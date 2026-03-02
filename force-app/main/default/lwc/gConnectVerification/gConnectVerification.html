@@ -173,12 +173,6 @@
                         <div style="color: red;" if:true={showCboxCategoryError}>Please select at least one checkbox
                         </div>
                     </div>
-                    <!-- show Validation error || 09-09-2025 -->
-                    <!--div
-                  class="editbtn slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-p-horizontal_medium slds-p-vertical_x-small">
-                  <div style="color: red;text-align: center;font-size: medium;font-weight: bold;" if:true={showDrivingValidation}>{showDrivingValidationMessage}
-                  </div>
-                  </div-->
                     <div
                         class="editbtn slds-col slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_6-of-12 slds-p-horizontal_medium slds-p-vertical_x-small">
                         <div style="display: flex;justify-content: center;">
@@ -362,52 +356,43 @@
 
                 <!-- SHARE CODE -->
                 <template if:true={showShareCode1}>
-                  <div class="card">
-                     <div class="card-body">
-                        <div class="evidence-label">
-                              Enter your share code
-                        </div>
-                        
-                        <div class="sharecode-note">
-                              <svg viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2"
-                                 stroke-linecap="round">
-                                 <circle cx="12" cy="12" r="10"></circle>
-                                 <line x1="12" y1="8" x2="12" y2="12"></line>
-                                 <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                              </svg>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="evidence-label">
+                                Enter your share code
+                            </div>
 
-                              <div>
-                                 {shareCodeData.line1}
-                                 <br /><br />
+                            <div class="sharecode-note">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                </svg>
 
-                                 If you don't have one yet, go to&nbsp;
-                                 <a href={shareCodeData.link}
-                                    target="_blank">
-                                    gov.uk/prove-right-to-work
-                                 </a>&nbsp;
-                                  to create one. Share codes are valid for 90 days.
-                              </div>
-                        </div>
+                                <div>
+                                    {shareCodeData.line1}
+                                    <br /><br />
 
-                        <div style="margin-top: 16px;">
-                           <div class="share-code-input-wrapper">
-                              <div class="share-code-prefix">W</div>
-                              <input
-                                    type="text"
-                                    name="shareCode"
-                                    class="share-code-input"
-                                    placeholder="Enter 8 characters"
-                                    maxlength="8"
-                                    value={shareCode}
-                                    oninput={onChangeForm64Details}
-                                    required
-                              />
-                           </div>
+                                    If you don't have one yet, go to&nbsp;
+                                    <a href={shareCodeData.link} target="_blank">
+                                        gov.uk/prove-right-to-work
+                                    </a>&nbsp;
+                                    to create one. Share codes are valid for 90 days.
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 16px;">
+                                <div class="share-code-input-wrapper">
+                                    <div class="share-code-prefix">W</div>
+                                    <input type="text" name="shareCode" class="share-code-input"
+                                        placeholder="Enter 8 characters" maxlength="8" value={shareCode}
+                                        oninput={onChangeForm64Details} required />
+                                </div>
+                            </div>
                         </div>
-                     </div>
-                  </div>
-            </template>
+                    </div>
+                </template>
 
                 <div class="slds-grid slds-wrap" style="gap: inherit;">
                     <div
@@ -437,8 +422,9 @@
             <div class="main" style="display: block;">
 
                 <!-- child handles ALL upload / camera UI -->
-                <c-g-connect-rtw-upload record-id={recordId} upload-mode={uploadMode} document-type={currentUploadDocumentType}
-                    selected-rtw-option={selectedRTWOption} rtw-files={RTWFiles}>
+                <c-g-connect-rtw-upload record-id={recordId} upload-mode={uploadMode}
+                    document-type={currentUploadDocumentType} selected-rtw-option={selectedRTWOption}
+                    rtw-files={RTWFiles}>
                 </c-g-connect-rtw-upload>
 
                 <div class="slds-grid slds-wrap" style="gap: inherit;">
@@ -502,45 +488,5 @@
                 <div class="power_by_logo"><img src={powerByLogo}></div>
             </div>
         </div>
-    </template>
-
-  
-    <!-- ==================================== SC FLOW END ============================================================ -->
-    <template if:true={isProfileUploadOpned}>
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-            aria-describedby="modal-content-id-7" class="fileUploadModal slds-modal slds-fade-in-open">
-            <div class="slds-modal__container">
-                <!-- modal header start -->
-                <header class="slds-modal__header">
-                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-                        title="Close" onclick={handleFileCancel}>
-                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
-                            size="small"></lightning-icon>
-                        <span class="slds-assistive-text">Close</span>
-                    </button>
-                    <h2 id="modal-heading-12" class="slds-text-heading_medium slds-hyphenate">Upload Documents</h2>
-                </header>
-                <!-- modal body start -->
-                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-12">
-                    <div class="slds-grid slds-var-m-around_small">
-                        <div class="slds-col slds-size_6-of-6">
-                            <c-image-capture record-id={recordId} show-file-upload={showFileUploadModal}
-                                show-profile={showProfileUploadModal} show-capture-file={showImageCaptureModal}
-                                show-doc-error={isFileModuleError} show-error-message={fileModuleError}
-                                document-names={selectedRTWDocumentNames}
-                                show-front-back-radio-btn={showFrontBackRadioBtn}>
-                            </c-image-capture>
-                        </div>
-                    </div>
-                </div>
-                <!-- modal footer start-->
-                <footer class="slds-modal__footer deleteModal">
-                    <button class="slds-button slds-button_neutral" onclick={handleFileCancel}>Cancel</button>
-                    <button class="slds-button slds-button_brand btncolor"
-                        onclick={handleSaveProfileFiles}>Save</button>
-                </footer>
-            </div>
-        </section>
-        <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
 </template>

@@ -1,37 +1,20 @@
-import {
-    LightningElement,
-    track,
-    wire,
-    api
-} from 'lwc';
-import {
-    CurrentPageReference
-} from 'lightning/navigation';
+import { LightningElement, track, wire, api } from 'lwc';
+import { CurrentPageReference } from 'lightning/navigation';
 import verifyAccount from '@salesforce/apex/ConnectAppController.verifyAccount';
 import getSubContractorDetails from '@salesforce/apex/ConnectAppController.getSubContractorDetails';
 import prefferLanguage from '@salesforce/apex/ConnectAppController.prefferLanguage';
 import nationality from '@salesforce/apex/ConnectAppController.nationality';
-import updateDetails from '@salesforce/apex/ConnectAppController.updateDetails';
 import updateDetailsFromVerification from '@salesforce/apex/ConnectAppController.updateDetailsFromVerification';
-import fetchAddress from '@salesforce/apex/AddressAPIController.fetchAddress';
-import fetchFullAddress from '@salesforce/apex/AddressAPIController.fetchFullAddress';
 import CongratulationsImage from '@salesforce/resourceUrl/CongratulationsImage';
 import existingDriverCongratulationImage from '@salesforce/resourceUrl/existingDriverCongratulation';
-// import powerByLogo from '@salesforce/resourceUrl/powerByLogo';
 import PoweredByLogo from '@salesforce/resourceUrl/PoweredByLogo';
-
 import getMultiplePicklistValues from '@salesforce/apex/ConnectAppController.getMultiplePicklistValues';
 import uploadFile from '@salesforce/apex/ImageUploaderController.saveUplodededFiles';
-import saveProfilePhoto from '@salesforce/apex/ImageUploaderController.saveProfilePhoto';
 import searchExistingAccounts from '@salesforce/apex/AccountDuplicateChecker.searchExistingAccounts';
-import inserAccount from '@salesforce/apex/ScFlowFinishProcess.createAccount';
-import updateAssociation from '@salesforce/apex/ScFlowFinishProcess.updateAssociation';
 import GConnectLogo from '@salesforce/resourceUrl/GconnectLogo';
 import deleteExistingDocument from '@salesforce/apex/ImageUploaderController.deleteExistingDocument';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-import {
-    ShowToastEvent
-} from 'lightning/platformShowToastEvent';
 export default class GConnectVerification extends LightningElement {
     powerByLogo = `${PoweredByLogo}/Powered_by_Main_Colour.png`;
     buttonBackGroundColor = '#1A98D5';
@@ -72,7 +55,6 @@ export default class GConnectVerification extends LightningElement {
     isUTREntryDisabled = true;
     isVATEntryDisabled = true;
     isGovDetDisabled = true;
-    //confirmVideoDetailsPage = true
 
     showCongratsImg = false;
     fileErrorMessage = false;
@@ -909,7 +891,6 @@ export default class GConnectVerification extends LightningElement {
 
     //<!-- 1. Login Screen -->
     callSignUp() {
-
         this.spinner = true;
         this.collectDetails['lastConfirmStage'] = 'Sign Up';
         this.collectDetails['encryptedKey'] = this.encryptedKey;
@@ -961,38 +942,10 @@ export default class GConnectVerification extends LightningElement {
                             this.exisingDriverContent = false;
                         }
 
-
-                        // if (row.Biometric_Evidence__c == 'Yes' || row.Right_to_work_document__c != null) {
-                        //     this.showFileUploadCombo = true;
-                        //     if (this.selectedRTWOption == 'British passport') {
-                        //         this.selectedRTWOption = 'Passport';
-                        //     } else if (this.selectedRTWOption == 'British Birth or Adoption Certificate') {
-                        //         this.selectedRTWOption = 'Adoption';
-                        //     } else if (this.selectedRTWOption == 'Naturalisation') {
-                        //         this.selectedRTWOption = 'Naturalisation';
-                        //     } else if (this.selectedRTWOption == 'Work Visa') {
-                        //         this.selectedRTWOption = 'Visa';
-                        //     } else if (this.selectedRTWOption == 'Work Permit') {
-                        //         this.selectedRTWOption = 'Permit';
-                        //     } else if (this.selectedRTWOption == 'Other') {
-                        //         this.selectedRTWOption = 'Other';
-                        //     } else {
-                        //         this.selectedRTWOption = 'RTW';
-                        //     }
-                        //     this.showAccessCode = false;
-                        //     this.selectedRTWOption = 'Biometric';
-                        // } else {
-                        //     this.showFileUploadCombo = false;
-                        //     this.showAccessCode = true;
-                        // }
-                        
                         this.assignUpdatedData(row);
                         if (this.citizenshipStatuses.includes(row.Citizenship_Immigration_status__c)) {
                             this.citi_Immi_status = null;
                         }
-                        
-
-
 
                         this.lastConfirmStage = row.Last_Confirmed_Stage__c;
 
@@ -1027,10 +980,6 @@ export default class GConnectVerification extends LightningElement {
                             this.currentNINumber = row.National_Insurance_Number__c;
                         }
 
-                        // if(this.email != null && this.currentLicenceNumber != null && this.currentNINumber != null ){
-                        //     console.log('this.showWelcomeScreen2-->',this.showWelcomeScreen2);
-                        //     this.checkDuplicateAccount();
-                        // }
                         if (this.email != null && this.currentLicenceNumber != null && this.currentNINumber != null) {
                             if (row.Duplicate_Found__c == true || (row.Match_Account__c != null && row.Match_Account__c != undefined)) {
                                 this.isApplicationDuplicate = 'YES';
@@ -1215,7 +1164,6 @@ export default class GConnectVerification extends LightningElement {
         }
 
         if (this.showShareCode) {
-
             const value = this.collectForm64Details.shareCode ? this.collectForm64Details.shareCode.trim().toUpperCase() : '';
             const alphaNumericPattern = /^[A-Z0-9]{8}$/;
             if (!value) {
@@ -1231,7 +1179,6 @@ export default class GConnectVerification extends LightningElement {
             this.shareCode = fullValue;
             this.collectForm64Details.shareCode = fullValue;
             this.collectForm64Details.hasShareCode = true;
-                
         }
 
         if (allFieldsValid && !this.isRtwDocError) {
@@ -1249,19 +1196,15 @@ export default class GConnectVerification extends LightningElement {
             }
 
             this.collectDetails['lastConfirmStage'] = 'Right To Work';
-            
             this.collectDetails['confirmRightToWorkDetails'] = this.collectForm64Details;
-            if(this.collectForm64Details.shareCode){
+            if (this.collectForm64Details.shareCode) {
                 this.collectDetails['fromVerification'] = true;
-                
             }
-            else{
+            else {
                 this.showFileUploadCombo = true;
             }
             await this.updateConfirmDetails();
-            
-            
-            
+
             this.confirmForm64Page = false;
             this.showUploadScreen = false;
             this.successPage = false;
@@ -1280,7 +1223,6 @@ export default class GConnectVerification extends LightningElement {
     //<!-- 8. RTW Doc Upload -->
     //NEW CONFIRM METHOD
     async callConfirmRTWUploadDetails() {
-
         const childComp = this.template.querySelector('c-g-connect-rtw-upload');
 
         if (childComp) {
@@ -1355,296 +1297,20 @@ export default class GConnectVerification extends LightningElement {
     }
 
     // ----------------------------- OnChange METHODs ---------------------------------------//
-    onchangeBasicDetails(event) {
-        let name = event.target.name;
-        let value = event.target.value.trim();
-
-        if (name == 'email') {
-            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|co\.uk)$/;
-
-            if (!emailRegex.test(value)) {
-                event.target.setCustomValidity("Email must have @ and .com, .co.uk ");
-            } else {
-                event.target.setCustomValidity("");
-            }
-            this.email = value;
-            this.collectBasicDetails[event.target.name] = value;
-        } else if (name == 'phone') {
-            let phoneNum = event.target.value.trim();
-            phoneNum = this.convertPhoneNumber(phoneNum);
-            this.collectBasicDetails[name] = phoneNum;
-        } else {
-            this.collectBasicDetails[event.target.name] = value;
-        }
-
-    }
-
-    onchangeNIDetails(event) {
-        let name = event.target.name;
-        let value = event.target.value.trim();
-        if (name == 'nationalInsNumber') {
-            const pattern = /^[A-Za-z]{2}\d{6}[A-Za-z]{1}$/;
-
-            if (!pattern.test(value)) {
-                event.target.setCustomValidity("National Insurance Number must be in the format: AA123456A");
-            } else {
-                event.target.setCustomValidity("");
-            }
-        }
-        if (name == 'dateOfBirth') {
-            const selectedDate = new Date(event.target.value);
-            const minDate = new Date();
-            minDate.setFullYear(minDate.getFullYear() - 18);
-            if (selectedDate > minDate) {
-                event.target.setCustomValidity("Your age must be at least 18 years ago.");
-            } else {
-                event.target.setCustomValidity("");
-            }
-
-        }
-        this.collectAddressDetails[event.target.name] = event.target.value;
-    }
-
-    onchangeAddressDetails(event) {
-        let name = event.target.name;
-        let value = event.target.value.trim();
-
-        if (name == 'dateSCMoved') {
-            const threeYearsAgo = new Date();
-            threeYearsAgo.setFullYear(threeYearsAgo.getFullYear() - 3);
-            const selectedDate = new Date(value);
-            if (selectedDate >= threeYearsAgo) {
-                this.previosAddressVisible = false;
-            } else {
-                this.previosAddressVisible = true;
-            }
-            const minDate = new Date();
-            if (selectedDate > minDate) {
-                event.target.setCustomValidity("Future Date Not allowed.");
-            } else {
-                event.target.setCustomValidity("");
-            }
-            event.target.reportValidity();
-        }
-        if (name === 'postCode') {
-            const pattern = /^([A-Za-z]{1,2}\d[A-Za-z\d]? ?\d[A-Za-z]{2}|GIR ?0A{2})$/;
-            if (!pattern.test(value)) {
-                event.target.setCustomValidity("Please enter a valid postcode in the format");
-            } else {
-                event.target.setCustomValidity(""); // Reset custom validity message
-            }
-        }
-        if (name === 'previousPostCode') {
-            const pattern = /^([A-Za-z]{1,2}\d[A-Za-z\d]? ?\d[A-Za-z]{2}|GIR ?0A{2})$/;
-            if (!pattern.test(value)) {
-                event.target.setCustomValidity("Please enter a valid postcode in the format");
-            } else {
-                event.target.setCustomValidity(""); // Reset custom validity message
-            }
-        }
-        if (name === 'addressLine1') {
-            this.addressLine1 = event.target.value;
-            this.fetchData(name);
-        }
-        if (name === 'previousAddressLine1') {
-            this.previousAddressLine1 = event.target.value;
-            this.fetchData(name);
-        }
-        this.collectAddressDetails[event.target.name] = event.target.value;
-
-    }
-
-    handleCurrentAddressSelection(event) {
-        this.selectedCurrentAddress = event.target.dataset.value;
-        this.showCurrentAddress = false;
-        fetchFullAddress({
-            selectedAddress: this.selectedCurrentAddress
-        })
-            .then(result => {
-                // Handle the response data
-                // this.addressLine1 = result.Result.RawAddress.ThoroughfareName + ' ' + result.Result.RawAddress.ThoroughfareDesc + ' '  + result.Result.RawAddress.BuildingName + ' ' + result.Result.RawAddress.DependentLocality;
-                this.town = result.Result.RawAddress.Locality;
-                this.postCode = result.Result.RawAddress.Postcode;
-
-                let filteredAddress1 = "";
-                let filteredAddress2 = "";
-
-                for (let i = 0; i < result.Result.Address.Lines.length; i++) {
-                    const line = result.Result.Address.Lines[i];
-
-                    const trimmedLine = line.trim();
-
-
-                    if (trimmedLine && trimmedLine !== result.Result.RawAddress.Locality && trimmedLine.replace(/\s+/g, "") !== result.Result.RawAddress.Postcode.replace(/\s+/g, "")) {
-                        if (i === 0) {
-                            filteredAddress1 = trimmedLine;
-                        } else {
-                            filteredAddress2 += trimmedLine + ", ";
-                        }
-                    }
-                }
-
-                filteredAddress2 = filteredAddress2.slice(0, -2);
-                this.country = 'United Kingdom';
-
-                this.addressLine1 = filteredAddress1;
-                this.addressLine2 = filteredAddress2;
-                this.collectAddressDetails = {
-                    ...this.collectAddressDetails, // Keep existing properties
-                    addressLine1: this.addressLine1,
-                    addressLine2: this.addressLine2,
-                    town: this.town,
-                    postCode: this.postCode,
-                    country: this.country
-                };
-
-
-            })
-            .catch(error => {
-                console.error('Error fetching Full address :', error);
-            });
-
-    }
-
-    handlePreviousAddressSelection(event) {
-        this.selectedPreviousAddress = event.target.dataset.value;
-
-        this.showPreviousAddress = false;
-        fetchFullAddress({
-            selectedAddress: this.selectedPreviousAddress
-        })
-            .then(result => {
-                this.previousTown = result.Result.RawAddress.Locality;
-                this.previousPostCode = result.Result.RawAddress.Postcode;
-
-                let filteredAddress1 = "";
-                let filteredAddress2 = "";
-
-                for (let i = 0; i < result.Result.Address.Lines.length; i++) {
-                    const line = result.Result.Address.Lines[i];
-                    const trimmedLine = line.trim();
-
-                    if (trimmedLine && trimmedLine !== result.Result.RawAddress.Locality && trimmedLine.replace(/\s+/g, "") !== result.Result.RawAddress.Postcode.replace(/\s+/g, "")) {
-                        if (i === 0) {
-                            filteredAddress1 = trimmedLine;
-                        } else {
-                            filteredAddress2 += trimmedLine + ", ";
-                        }
-                    }
-                }
-
-                filteredAddress2 = filteredAddress2.slice(0, -2);
-                this.previousCountry = 'United Kingdom';
-
-                this.previousAddressLine1 = filteredAddress1;
-                this.previousAddressLine2 = filteredAddress2;
-                this.collectAddressDetails = {
-                    ...this.collectAddressDetails,
-                    previousAddressLine1: this.previousAddressLine1,
-                    previousAddressLine2: this.previousAddressLine2,
-                    previousTown: this.previousTown,
-                    previousPostCode: this.previousPostCode,
-                    previousCountry: this.previousCountry
-                };
-
-            })
-            .catch(error => {
-                console.error('Error fetching Full address :', error);
-            });
-
-    }
-
-    convertPhoneNumber(phoneNum) {
-
-        let convertedPhoneNum = '+44' + phoneNum.slice(-10);
-        // Remove '+44' or '44' at the start
-        // if (phoneNum.startsWith('+44')) {
-        //     phoneNum = phoneNum.substring(3);
-        // } else if (phoneNum.startsWith('44')) {
-        //     phoneNum = phoneNum.substring(2);
-        // }
-
-        // // Handle different cases
-        // if (phoneNum.startsWith('00')) {
-        //     convertedPhoneNum = '+44' + phoneNum.substring(2); // Remove '00'
-        // } else if (phoneNum.startsWith('0')) {
-        //     convertedPhoneNum = '+44' + phoneNum.substring(1); // Remove leading '0'
-        // } else {
-        //     convertedPhoneNum = '+44' + phoneNum; // Assume missing country code
-        // }
-
-        return convertedPhoneNum;
-    }
-
-    onchangeEmergencyContactDetails(event) {
-        let name = event.target.name;
-        let value = event.target.value.trim();
-
-        if (name === 'EmergencyContactNumber') {
-            let phoneNum = value;
-            phoneNum = this.convertPhoneNumber(phoneNum);
-            this.collectEmergancyContactDetails[name] = phoneNum;
-
-        } else {
-            this.collectEmergancyContactDetails[name] = value;
-        }
-    }
-    onchangeGovtGatewayDetails(event) {
-        let name = event.target.name;
-        let value = event.target.value.trim();
-        if (name == 'uniqueTaxRefNumber') {
-
-            if (value == 'No' || value == 'Yes but I will provide it later') {
-                this.URTNumberEntry = this.URTNumberEntry == null ? '' : null; // Reset the value
-                this.collectGovtGatewayDetails['URTNumberEntry'] = ''
-            }
-            this.isUTREntryDisabled = value == 'Yes' ? false : true;
-        }
-
-        if (name == 'VATNumber') {
-            this.isVATEntryDisabled = value == 'Yes' ? false : true;
-            if (value == 'No' || value == 'Yes but I will provide it later') {
-                this.VATNumberEntry = this.VATNumberEntry == null ? '' : null; // Reset the value
-                this.collectGovtGatewayDetails['VATNumberEntry'] = ''
-            }
-        }
-
-        if (name == 'KnowGovtGatewayDetails') {
-            this.isGovDetDisabled = value == 'Yes' ? false : true;
-            if (value == 'No' || value == 'Yes but I will provide it later') {
-
-                this.govtGatewayUsername = this.govtGatewayUsername == null ? '' : null; // Reset the value
-                this.collectGovtGatewayDetails['govtGatewayUsername'] = ''
-
-                this.govtGatewayPassword = this.govtGatewayPassword == null ? '' : null; // Reset the value
-                this.collectGovtGatewayDetails['govtGatewayPassword'] = ''
-            }
-        }
-        this.collectGovtGatewayDetails[event.target.name] = event.target.value;
-    }
-
-    onchangeBankDetails(event) {
-
-        this.collectBankDetails[event.target.name] = event.target.value.trim();
-    }
 
     // NEW RTW
     shareCode = null;
     showShareCode = false
 
     onChangeForm64Details(event) {
-
         if (event.target.name === 'citi_Immi_status') {
-
             this.rtwDoc = null;
             // NEW RTW
             this.shareCode = null;
-
-
             this.collectForm64Details.rtwDoc = null;
-                // NEW RTW
-                this.collectForm64Details.shareCode = null;
-                this.collectForm64Details.hasShareCode = false;
+            // NEW RTW
+            this.collectForm64Details.shareCode = null;
+            this.collectForm64Details.hasShareCode = false;
 
             if (event.target.value == 'Non-UK National') {
                 // this.citizenshipIsEEU = true;
@@ -1652,7 +1318,7 @@ export default class GConnectVerification extends LightningElement {
                 this.showFileUploadCombo = false;
                 // this.showAccessCode = true;
                 this.showShareCode = true;
-              
+
             } else {
                 // this.citizenshipIsEEU = false;
                 this.isRTWDoc = true;
@@ -1665,56 +1331,43 @@ export default class GConnectVerification extends LightningElement {
                 if (this.rtwDoc != null) {
                     if (this.rtwDoc == 'British passport') {
                         this.selectedRTWOption = 'BritishPassport';
-                        // this.showRTWExpiryDate = false;
-                    } 
+                    }
                     else if (this.rtwDoc == 'Birth/Adoption Certificate + National Insurance document') {
                         this.selectedRTWOption = 'BirthAdoptionNI';
-                        // this.showRTWExpiryDate = false;
-                    } 
+                    }
                     else if (this.rtwDoc == 'Certificate of registration/naturalisation + National Insurance document') {
                         this.selectedRTWOption = 'NaturalisationNI';
-                        // this.showRTWExpiryDate = false;
-                    } 
+                    }
                     else if (this.rtwDoc == 'Irish passport or passport card') {
                         this.selectedRTWOption = 'IrishPassport';
-                        // this.showRTWExpiryDate = false;
-                    } 
+                    }
                     else if (this.rtwDoc == 'Irish Birth/Adoption Certificate + National Insurance document') {
                         this.selectedRTWOption = 'IrishBirthAdoptionNI';
-                        // this.showRTWExpiryDate = false;
-                    } 
-
+                    }
                     this.showFileUploadCombo = true;
                 }
-
             }
         }
         if (event.target.name === 'rtwDoc') {
             this.showFileUploadCombo = true;
             if (this.rtwDoc == 'British passport') {
-                    this.selectedRTWOption = 'BritishPassport';
-                    // this.showRTWExpiryDate = false;
-                } 
-                else if (this.rtwDoc == 'Birth/Adoption Certificate + National Insurance document') {
-                    this.selectedRTWOption = 'BirthAdoptionNI';
-                    // this.showRTWExpiryDate = false;
-                } 
-                else if (this.rtwDoc == 'Certificate of registration/naturalisation + National Insurance document') {
-                    this.selectedRTWOption = 'NaturalisationNI';
-                    // this.showRTWExpiryDate = false;
-                } 
-                else if (this.rtwDoc == 'Irish passport or passport card') {
-                    this.selectedRTWOption = 'IrishPassport';
-                    // this.showRTWExpiryDate = false;
-                } 
-                else if (this.rtwDoc == 'Irish Birth/Adoption Certificate + National Insurance document') {
-                    this.selectedRTWOption = 'IrishBirthAdoptionNI';
-                    // this.showRTWExpiryDate = false;
-                } 
+                this.selectedRTWOption = 'BritishPassport';
+            }
+            else if (this.rtwDoc == 'Birth/Adoption Certificate + National Insurance document') {
+                this.selectedRTWOption = 'BirthAdoptionNI';
+            }
+            else if (this.rtwDoc == 'Certificate of registration/naturalisation + National Insurance document') {
+                this.selectedRTWOption = 'NaturalisationNI';
+            }
+            else if (this.rtwDoc == 'Irish passport or passport card') {
+                this.selectedRTWOption = 'IrishPassport';
+            }
+            else if (this.rtwDoc == 'Irish Birth/Adoption Certificate + National Insurance document') {
+                this.selectedRTWOption = 'IrishBirthAdoptionNI';
+            }
         }
-        
-        if (event.target.name === 'shareCode') {
 
+        if (event.target.name === 'shareCode') {
             let value = event.target.value
                 ? event.target.value.trim().toUpperCase()
                 : '';
@@ -1733,7 +1386,7 @@ export default class GConnectVerification extends LightningElement {
 
             if (value.length === 0) {
                 errorMessage = 'Share Code is required.';
-            } 
+            }
             else if (!alphaNumericPattern.test(value)) {
                 errorMessage = 'Share Code must be exactly 8 letters and numbers.';
             }
@@ -1745,12 +1398,9 @@ export default class GConnectVerification extends LightningElement {
             this.shareCode = value;
             this.collectForm64Details.shareCode = value;
             this.collectForm64Details.hasShareCode = true;
-
             return;
         }
-      
         this.collectForm64Details[event.target.name] = event.target.value.trim();
-
     }
 
     onChangeLicenseDetails(event) {
@@ -1760,7 +1410,6 @@ export default class GConnectVerification extends LightningElement {
             const minDate = new Date();
             minDate.setHours(0, 0, 0, 0);
             if (selectedDate < minDate) {
-
                 event.target.setCustomValidity("Past date is not allowed.");
             } else {
                 event.target.setCustomValidity("");
@@ -1835,7 +1484,6 @@ export default class GConnectVerification extends LightningElement {
             const selectedDate = new Date(event.target.value);
             const minDate = new Date();
             if (selectedDate > minDate) {
-
                 event.target.setCustomValidity("Future date is not allowed.");
             } else {
                 event.target.setCustomValidity("");
@@ -1847,32 +1495,6 @@ export default class GConnectVerification extends LightningElement {
         }
         this.showDrivingValidation = false;
         this.showDrivingValidationMessage = null;
-    }
-
-    onChangeUploadType(event) {
-        this.isProfileUploadOpned = false;
-        this.showImageCaptureModal = false;
-        this.showFileUploadModal = false;
-        this.showProfileUploadModal = false;
-
-        if (event.target.value == 'Upload Profile') {
-            this.isProfileUploadOpned = true;
-            this.showImageCaptureModal = false;
-            this.showFileUploadModal = false;
-            this.showProfileUploadModal = true;
-        } else if (event.target.value == 'Capture Image') {
-            this.isProfileUploadOpned = true;
-            this.showImageCaptureModal = true;
-            this.showFileUploadModal = false;
-            this.showProfileUploadModal = false;
-        } else if (event.target.value == 'Upload File') {
-            this.isProfileUploadOpned = true;
-            this.showImageCaptureModal = false;
-            this.showFileUploadModal = true;
-            this.showProfileUploadModal = false;
-        }
-        this.uploadType = event.target.value;
-
     }
 
     onchangeConfirmSave(event) {
@@ -1952,67 +1574,6 @@ export default class GConnectVerification extends LightningElement {
             this.tab1Selected = false;
             this.tab2Selected = false;
             this.tab3Selected = true;
-        }
-
-    }
-
-    handleVideoEnd() {
-        this.isButtonDisabled = false;
-    }
-
-    enableEditMode() {
-        this.editMode = false;
-    }
-
-    fetchData(name) {
-
-        if (name === 'addressLine1') {
-            fetchAddress({
-                searchAddress: this.addressLine1
-            })
-                .then(result => {
-
-                    if (result.Results && result.Results.length > 0) {
-                        this.showCurrentAddress = true;
-                        this.currentAddressOptions = result.Results.map(item => {
-                            return {
-                                label: item.label,
-                                value: item.value
-                            };
-                        });
-                    } else {
-                        this.showCurrentAddress = false;
-                        this.currentAddressOptions = [];
-                        this.selectedCurrentAddress = '';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching address:', error);
-                });
-        } else if (name === 'previousAddressLine1') {
-            fetchAddress({
-                searchAddress: this.previousAddressLine1
-            })
-                .then(result => {
-
-                    if (result.Results && result.Results.length > 0) {
-                        this.showPreviousAddress = true;
-                        this.previousAddressOptions = result.Results.map(item => {
-                            return {
-                                label: item.label,
-                                value: item.value
-                            };
-                        });
-                    } else {
-                        this.showPreviousAddress = false;
-                        this.previousAddressOptions = [];
-                        this.selectedPreviousAddress = '';
-                    }
-
-                })
-                .catch(error => {
-                    console.error('Error fetching address:', error);
-                });
         }
 
     }
@@ -2133,120 +1694,6 @@ export default class GConnectVerification extends LightningElement {
         }
 
     }
-    clickProfileUpload(event) {
-        this.isProfileUploadOpned = true;
-        this.showImageCaptureModal = false;
-        this.showFileUploadModal = false;
-        this.showProfileUploadModal = true;
-        //this.fileErrorMessage = false;
-        this.isRtwDocError = false;
-        this.isProfilePicError = false;
-        this.isDlDocError = false;
-        //this.showFrontBackRadioBtn = false;
-
-    }
-
-    handleFileCancel(event) {
-        this.uploadType = 'None';
-        this.isProfileUploadOpned = false;
-        this.fileUploadType = '';
-    }
-
-    handleFileChange(event) {
-        const file = event.target.files[0];
-        if (file && file.size <= this.MAX_FILE_SIZE) { // Check file size under 5MB
-            const reader = new FileReader();
-            reader.onload = () => {
-                this.displayProfile = [{
-                    name: file.name,
-                    url: reader.result,
-                    base64Data: reader.result.split(',')[1],
-                    id: Date.now(),
-                    contentType: file.type
-                }];
-            };
-            reader.readAsDataURL(file);
-        } else {
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: 'Error',
-                    message: 'Profile photo must be under 5 MB',
-                    variant: 'error'
-                })
-            );
-        }
-    }
-
-    handleRemoveImage(event) {
-        const imageName = event.target.dataset.imageName;
-        this.displayProfile = [];
-    }
-
-    handleSaveProfileFiles(event) {
-        this.uploadFileFlag = false;
-        this.profileFlag = false;
-        this.capturedFileFlag = false;
-
-        // Getting List From Child Comp.
-        const childComp = this.template.querySelector('c-image-capture');
-
-        if (childComp) {
-            if (this.showProfileUploadModal) {
-                const profileData = childComp.getProfileDocs();
-                if (profileData) {
-                    if (profileData.profileFiles.length > 0) {
-                        this.profileFiles = profileData.profileFiles;
-                    } else {
-                        this.fileModuleError = 'Please Upload evidence';
-                        this.isFileModuleError = true;
-                        return;
-                    }
-                } else {
-                    console.log('No data returned from child component');
-                }
-            } else {
-                const data = childComp.getUploadDocs();
-                if (data) {
-                    if (data.uploadFrontFiles.length > 0 || data.capturedFrontFiles.length > 0) {
-                        this.frontDocFiles = data.uploadFrontFiles.length > 0 ? data.uploadFrontFiles : data.capturedFrontFiles;
-                        if (this.documentUploadType == 'RTW') {
-                            this.RTWFiles = this.frontDocFiles;
-                            this.showFrontBackRadioBtn = false;
-                        } else {
-                            this.frontDLFiles = this.frontDocFiles;
-                        }
-
-
-                    } else {
-                        this.fileModuleError = 'Please Upload the related Front File';
-                        this.isFileModuleError = true;
-                        return;
-                    }
-                    if (this.showFrontBackRadioBtn && this.documentUploadType != 'RTW') {
-                        if (data.uploadBackFiles.length > 0 || data.capturedBackFiles.length > 0) {
-                            this.backDocFiles = data.uploadBackFiles.length > 0 ? data.uploadBackFiles : data.capturedBackFiles;
-                            this.backDLFiles = this.backDocFiles;
-                        } else {
-                            this.fileModuleError = 'Please Upload the related Back File';
-                            this.isFileModuleError = true;
-                            return;
-                        }
-                    } else {
-                        this.backDocFiles = [];
-                    }
-                } else {
-                    console.log('No data returned from child component');
-                }
-            }
-        } else {
-            console.log('Child component not found');
-        }
-        this.isProfileUploadOpned = false;
-        //this.fileErrorMessage = false;
-        this.isRtwDocError = false;
-        this.isProfilePicError = false;
-        this.isDlDocError = false;
-    }
 
     callBackButton(event) {
         if (this.isRtwDocError) this.isRtwDocError = false;
@@ -2322,49 +1769,6 @@ export default class GConnectVerification extends LightningElement {
             });
     }
 
-    createAccountRecord() {
-        inserAccount({
-            applicationId: this.recordId,
-            accountId: this.duplicateAccountId
-        })
-            .then(() => {
-                this.confirmServiceTermsDetailsPage = false;
-                this.congratulationsPage = true;
-                this.spinner = false;
-            })
-            .catch(error => {
-                console.error(error);
-                this.showToast('Error', error.body?.message || 'Unknown error', 'error');
-            });
-    }
-
-    // async createAccountRecord() {
-    //     try {
-    //         await inserAccount({ applicationId: this.recordId, accountId: this.duplicateAccountId });
-    //         this.confirmServiceTermsDetailsPage = false;
-    //         this.congratulationsPage = true;
-    //         this.spinner = false;
-    //     } catch (error) {
-    //         console.error(error);
-    //         this.showToast('Error', error.body?.message || 'Unknown error', 'error');
-    //     }
-    // }
-
-    updateAssociationRecord() {
-        this.spinner = true;
-        updateAssociation({
-            applicationId: this.recordId
-        })
-            .then(() => {
-                this.confirmServiceTermsDetailsPage = false;
-                this.congratulationsPage = true;
-                this.spinner = false;
-            })
-            .catch(error => {
-                console.error(error);
-                this.showToast('Error', error.body?.message || 'Unknown error', 'error');
-            });
-    }
 
     assignUpdatedData(rowData) {
         //this.fileErrorMessage = false;
@@ -2402,7 +1806,7 @@ export default class GConnectVerification extends LightningElement {
         this.expiryDate = rowData.RTW_Expiry_Date__c ? rowData.RTW_Expiry_Date__c : '';
         this.accessCode = rowData.Access_Code__c ? rowData.Access_Code__c : '';
         // this.shareCode = rowData.Share_Code__c ? rowData.Share_Code__c : '';
-        // ✅ Remove 'W' prefix from share code when displaying in UI
+        // Remove 'W' prefix from share code when displaying in UI
         if (rowData.Share_Code__c) {
             let shareCodeValue = rowData.Share_Code__c;
             // If share code starts with 'W', remove it for UI display
@@ -2417,60 +1821,6 @@ export default class GConnectVerification extends LightningElement {
         }
         this.biometricEvidence = rowData.Biometric_Evidence__c ? rowData.Biometric_Evidence__c : '';
 
-        // OLD RTW
-        // if (this.citi_Immi_status != null) {
-        //     this.rtw_option = this.allowedRTWOptions[this.citi_Immi_status];
-        //     if (this.citi_Immi_status == 'EU/EEA/Swiss Citizen') {
-        //         this.citizenshipIsEEU = true;
-        //         this.isRTWDoc = false;
-        //         this.showFileUploadCombo = false;
-        //         this.showAccessCode = false;
-        //         this.showRTWExpiryDate = false;
-
-        //     } else {
-        //         this.citizenshipIsEEU = false;
-        //         this.isRTWDoc = true;
-        //         this.showFileUploadCombo = false;
-        //         this.showAccessCode = false;
-
-        //         if (this.rtwDoc != null) {
-        //             if (this.rtwDoc == 'British passport') {
-        //                 this.selectedRTWOption = 'Passport';
-        //                 this.showRTWExpiryDate = true;
-        //             } else if (this.rtwDoc == 'British Birth or Adoption Certificate') {
-        //                 this.selectedRTWOption = 'Adoption';
-        //                 this.showRTWExpiryDate = false;
-        //             } else if (this.rtwDoc == 'Naturalisation') {
-        //                 this.selectedRTWOption = 'Naturalisation';
-        //                 this.showRTWExpiryDate = false;
-        //             } else if (this.rtwDoc == 'Work Visa') {
-        //                 this.selectedRTWOption = 'Visa';
-        //                 this.showRTWExpiryDate = true;
-        //             } else if (this.rtwDoc == 'Work Permit') {
-        //                 this.selectedRTWOption = 'Permit';
-        //                 this.showRTWExpiryDate = true;
-        //             } else if (this.rtwDoc == 'Other') {
-        //                 this.selectedRTWOption = 'Other';
-        //                 this.showRTWExpiryDate = true;
-        //             }
-        //             this.showFileUploadCombo = true;
-        //         }
-        //     }
-        // }
-
-        // OLD RTW
-        // if (this.biometricEvidence != null && this.biometricEvidence != '') {
-        //     if (this.biometricEvidence == 'Yes') {
-        //         this.showFileUploadCombo = true;
-        //         this.showAccessCode = false;
-        //         this.selectedRTWOption = 'Biometric';
-        //     } else {
-        //         this.showFileUploadCombo = false;
-        //         this.showAccessCode = true;
-        //     }
-        // }
-
-        // NEW RTW
         // ================================
         // AUTO SELECT CATEGORY
         // ================================
@@ -2514,13 +1864,10 @@ export default class GConnectVerification extends LightningElement {
             }
         }
 
-
-
         this.bankAccountName = rowData.Bank_Account_Name__c ? rowData.Bank_Account_Name__c : '';
         this.bankAccountNo = rowData.Bank_Account_No__c ? rowData.Bank_Account_No__c : '';
         this.sortCode = rowData.Sort_Code__c ? rowData.Sort_Code__c : '';
         this.bankWithName = rowData.Who_do_you_bank_with__c ? rowData.Who_do_you_bank_with__c : '';
-
 
         this.uniqueTaxRefNumber = rowData.Do_You_Have_Unique_Tax_Reference_Number__c ? rowData.Do_You_Have_Unique_Tax_Reference_Number__c : '';
         this.URTNumberEntry = rowData.URT_Number_Entry__c ? rowData.URT_Number_Entry__c : '';
@@ -2530,11 +1877,9 @@ export default class GConnectVerification extends LightningElement {
         this.govtGatewayUsername = rowData.Govt_Gateway_Username__c ? rowData.Govt_Gateway_Username__c : '';
         this.govtGatewayPassword = rowData.Govt_Gateway_Password__c ? rowData.Govt_Gateway_Password__c : '';
 
-
         this.EmergencyContactName = rowData.Emergency_Contact_Name__c ? rowData.Emergency_Contact_Name__c : '';
         this.EmergencyContactRelation = rowData.Emergency_Contact_Relationship__c ? rowData.Emergency_Contact_Relationship__c : '';
         this.EmergencyContactNumber = rowData.Emergency_Contract_Telephone_Number__c ? rowData.Emergency_Contract_Telephone_Number__c.replace('+44', '') : '';
-
 
         this.addressLine1 = rowData.Address_Line_1__c ? rowData.Address_Line_1__c : '';
         this.addressLine2 = rowData.Address_Line_2__c ? rowData.Address_Line_2__c : '';
@@ -2557,6 +1902,5 @@ export default class GConnectVerification extends LightningElement {
                 this.previosAddressVisible = true;
             }
         }
-
     }
 }

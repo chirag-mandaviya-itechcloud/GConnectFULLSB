@@ -790,12 +790,6 @@ a:hover:not(.slds-button,.slds-dropdown__item>a){
     }
 }
 
-
-
-
-
-
-
 @media (min-width: 576px) {
     .container {
         max-width: 540px;
