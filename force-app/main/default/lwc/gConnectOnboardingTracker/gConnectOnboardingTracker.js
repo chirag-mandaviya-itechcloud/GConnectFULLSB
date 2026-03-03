@@ -375,6 +375,10 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
             this.selectedContractor?.nationalInsurance
         );
     }
+    
+    get haveAnyCode(){
+        return (this.selectedContractor.hasShareCode || this.selectedContractor.hasAccessCode)
+    }
 
     get mainModalClass() {
         return this.openRequestNewEvidenceModal ? 'slds-modal__container blur-background' : 'slds-modal__container';
@@ -1528,8 +1532,8 @@ export default class GConnectOnboardingTracker extends NavigationMixin(Lightning
         // });
         let baseUrl = window.location.origin;
 
-        let targetUrl = `${baseUrl}/mcsite/s/driver-profile?recordId=${selectedDriverId}`;
-
+        //let targetUrl = `${baseUrl}/mcsite/s/driver-profile?recordId=${selectedDriverId}`;
+        let targetUrl = `${this.MC_Site_URL}s/driver-profile?recordId=${selectedDriverId}`;
         // Open in a new browser tab
         window.open(targetUrl, '_blank');
     }

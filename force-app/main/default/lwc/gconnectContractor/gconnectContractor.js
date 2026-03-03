@@ -11,9 +11,7 @@ import getRTWandDLfiles from '@salesforce/apex/AccountMainContractorController.g
 import fetchDeductionRemainAmt from '@salesforce/apex/DeductionController.fetchDeductionRemainAmt';
 import saveUplodededFiles from '@salesforce/apex/ImageUploaderController.saveUplodededFiles';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import updateDocumentType from '@salesforce/apex/AccountMainContractorController.updateDocumentType';
 import MC_Site_URL from '@salesforce/label/c.MC_Site_URL';
-import deleteByContentVersionId from '@salesforce/apex/AccountMainContractorController.deleteByContentVersionId';
 
 import USER_ID from "@salesforce/user/Id";
 import { CurrentPageReference } from 'lightning/navigation';
@@ -620,6 +618,10 @@ export default class GconnectContractor extends NavigationMixin(LightningElement
     get showSection() {
         return !this.selectedContractor?.hasAccessCode
             && this.selectedContractor?.hasShareCode;
+    }
+
+    get haveAnyCode(){
+        return (this.selectedContractor.hasShareCode || this.selectedContractor.hasAccessCode)
     }
 
     get mainModalClass(){
@@ -2106,8 +2108,8 @@ export default class GconnectContractor extends NavigationMixin(LightningElement
         // });
         let baseUrl = window.location.origin;
 
-        let targetUrl = `${baseUrl}/mcsite/s/driver-profile?recordId=${selectedDriverId}`;
-
+        //let targetUrl = `${baseUrl}/mcsite/s/driver-profile?recordId=${selectedDriverId}`;
+        let targetUrl = `${this.MC_Site_URL}s/driver-profile?recordId=${selectedDriverId}`;
         // Open in a new browser tab
         window.open(targetUrl, '_blank');
     }
