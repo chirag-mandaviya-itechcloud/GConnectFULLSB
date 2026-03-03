@@ -453,37 +453,60 @@
     <!-- Success Page -->
     <template if:true={successPage}>
         <div class="confirm_details_sec">
-            <div class="confirmDetails">
-                <div class="slds-grid slds-wrap">
-                    <div
-                        class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-p-horizontal_medium slds-p-vertical_x-small">
-                        <div>
-                            <h2 class="title primaryContent">Verification Successful!</h2>
-                            <div class="subtitle secondaryContent">Thank you for submitting your details. Your
-                                information has been
-                                successfully verified.</div>
-                        </div>
+            <div class="details-container">
+                <div class="success-card">
+                    <div class="icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#17C974" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
                     </div>
+                    <h1 class="heading">Submission Successful</h1>
+                    <p class="body-text">
+                        Thank you for submitting your Right to Work documents. Your information has been
+                        sent to your main
+                        contractor
+                        for review.
+                    </p>
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        Pending Verification
+                    </div>
+                    <hr class="divider">
+                    <p class="muted-text">
+                        Nothing else is needed from you. If any amendments are required, your main
+                        contractor will be in touch.
+                    </p>
                 </div>
                 <div class="power_by_logo"><img src={powerByLogo}></div>
             </div>
         </div>
+
     </template>
 
     <!--  -->
     <template if:true={alreadySubmittedPage}>
         <div class="confirm_details_sec">
-            <div class="confirmDetails">
-                <div class="slds-grid slds-wrap">
-                    <div
-                        class="slds-col slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-p-horizontal_medium slds-p-vertical_x-small">
-                        <div>
-                            <h2 class="title primaryContent">Verification Already Submitted!</h2>
-                            <div class="subtitle secondaryContent">Thank you for submitting your details. Your
-                                information has been
-                                successfully verified.</div>
-                        </div>
+            <div class="details-container">
+                <div class="success-card">
+                    <div class="info-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#4DA3FF" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="16" x2="12" y2="12"></line>
+                            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                        </svg>
                     </div>
+                    <h1 class="heading">Already Submitted</h1>
+                    <p class="body-text">
+                        Your Right to Work documents have already been submitted using this link. You don't need to do
+                        anything
+                        else.
+                    </p>
+                    <hr class="divider">
+                    <p class="muted-text">
+                        If any amendments are required, your main contractor will be in touch.
+                    </p>
                 </div>
                 <div class="power_by_logo"><img src={powerByLogo}></div>
             </div>
